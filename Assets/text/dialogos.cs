@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class dialogos : MonoBehaviour
@@ -11,8 +12,8 @@ public class dialogos : MonoBehaviour
     [SerializeField] private Sprite[] mysprites;
 
 
-    [SerializeField] private  string[] lines;
-    [SerializeField] private string[] name;
+    [SerializeField] private  string[] Text;
+    [SerializeField] private string[] characterName;
 
     [SerializeField] private float textspeed = 0.5f;
 
@@ -29,15 +30,15 @@ public class dialogos : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (textcomponent.text == lines[index])
+            if (textcomponent.text == Text[index])
             {
                 NextLine();
             }
             else
             {
                 StopAllCoroutines();
-                textcomponent.text = lines[index];
-                nameComp.text = name[index];
+                textcomponent.text = Text[index];
+                nameComp.text = characterName[index];
                 updateCharacterInfo();
             }
         }
@@ -52,7 +53,7 @@ public class dialogos : MonoBehaviour
     }
     IEnumerator TypeLine()
     {
-        foreach (char c in lines[index].ToCharArray())
+        foreach (char c in Text[index].ToCharArray())
         {
             textcomponent.text += c;
             yield return new WaitForSeconds(textspeed);
@@ -60,7 +61,7 @@ public class dialogos : MonoBehaviour
     }
     void NextLine()
     {
-        if (index < lines.Length - 1)
+        if (index < Text.Length - 1)
         {
             index++;
             textcomponent.text = string.Empty;
@@ -72,9 +73,9 @@ public class dialogos : MonoBehaviour
 
     void updateCharacterInfo()
     {
-        if (index < name.Length)
+        if (index < characterName.Length)
         {
-            nameComp.text = name[index];
+            nameComp.text = characterName[index];
         }
 
         if (index < mysprites.Length)
