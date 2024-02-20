@@ -428,7 +428,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 28845bc671885844b8782248800e800f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: d4855b409ff76434e87d57835846bbd1, type: 2}
+      objectReference: {fileID: 2100000, guid: 63c2288fd2c7e3949b29b4f0f7b3fd16, type: 2}
     - target: {fileID: 919132149155446097, guid: 28845bc671885844b8782248800e800f, type: 3}
       propertyPath: m_Name
       value: rock wall
@@ -494,7 +494,7 @@ PrefabInstance:
     - target: {fileID: 5416275967292398811, guid: b3c93af533c81014eb2cc16815ccf6cd, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: d4855b409ff76434e87d57835846bbd1, type: 2}
+      objectReference: {fileID: 2100000, guid: 8756028776798de43a7664f7d70e0dbb, type: 2}
     - target: {fileID: 5776577062657424654, guid: b3c93af533c81014eb2cc16815ccf6cd, type: 3}
       propertyPath: m_Name
       value: rock wall Variant
@@ -1399,7 +1399,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 50755d75c298d484bbbbcae0759f3663, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 63c2288fd2c7e3949b29b4f0f7b3fd16, type: 2}
+      objectReference: {fileID: 2100000, guid: 8756028776798de43a7664f7d70e0dbb, type: 2}
     - target: {fileID: 919132149155446097, guid: 50755d75c298d484bbbbcae0759f3663, type: 3}
       propertyPath: m_Name
       value: waterside rock
