@@ -25,7 +25,7 @@ public class movement : MonoBehaviour
                 MoveToPosition(hit.point);
             }
         }
-        MoveToPosition();
+        MoveToPosition(targetposition);
     }
 
     void MoveToPosition(Vector3 target)
