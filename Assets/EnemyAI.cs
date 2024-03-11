@@ -80,6 +80,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             navMeshAgent.SetDestination(target.position);
+            
         }
     }
 
