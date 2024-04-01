@@ -15,8 +15,7 @@ public class water : MonoBehaviour
         mesh = GetComponent<MeshFilter>().mesh;
         baseVector = mesh.vertices;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         Vector3[] vertices = new Vector3[baseVector.Length];
