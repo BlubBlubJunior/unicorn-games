@@ -17,7 +17,6 @@ public class playerController : MonoBehaviour
     
     void Update()
     {
-        anime.SetFloat("speed", movedirection.z);
         anime.SetFloat("sidemovement", movedirection.x);
         movedirection = new Vector3(Input.GetAxis("Horizontal"),0f, Input.GetAxis("Vertical"));
        
