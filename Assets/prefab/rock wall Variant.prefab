@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 28845bc671885844b8782248800e800f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 199.15631
+      value: 416.99445
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 28845bc671885844b8782248800e800f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.00000047683716
+      value: 3.518579
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 28845bc671885844b8782248800e800f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -108.26714
+      value: 605.8102
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 28845bc671885844b8782248800e800f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 28845bc671885844b8782248800e800f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1eac1f8ec7d6cff4097328edf3be3ebe, type: 2}
+      objectReference: {fileID: 2100000, guid: 8756028776798de43a7664f7d70e0dbb, type: 2}
     - target: {fileID: 919132149155446097, guid: 28845bc671885844b8782248800e800f, type: 3}
       propertyPath: m_Name
       value: rock wall Variant

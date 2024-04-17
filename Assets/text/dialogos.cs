@@ -1,87 +1,120 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class dialogos : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI textcomponent;
-    [SerializeField] private TextMeshProUGUI nameComp;
-    [SerializeField] private Image Character;
-    [SerializeField] private Sprite[] mysprites;
+    [SerializeField] private float TextSpeed;
 
 
-    [SerializeField] private  string[] Text;
-    [SerializeField] private string[] characterName;
+    [SerializeField] private TextMeshProUGUI textComponent;
+    [SerializeField] private TextMeshProUGUI nameComponent;
+    [SerializeField] private Image characterImage;
 
-    [SerializeField] private float textspeed = 0.5f;
+    [SerializeField] private List<CustomList> textList = new List<CustomList>();
 
-    private int index;
-    void Start()
+    private int currentIndex;
+    private int currentLineIndex;
+    private bool isTyping;
+    private bool textStarted;
+
+    private void Start()
     {
-        textcomponent.text = string.Empty;
-        nameComp.text = string.Empty;
-        startDailogo();
+        InitializeVariables();
+        StartDialogue();
     }
 
-
-    void Update()
+    private void InitializeVariables()
     {
-        if (Input.GetMouseButtonDown(0))
+        currentIndex = currentLineIndex = 0;
+        isTyping = textStarted = false;
+    }
+
+    private void Update()
+    {
+        if (textStarted && Input.GetMouseButtonDown(0))
         {
-            if (textcomponent.text == Text[index])
+            if (!isTyping)
             {
                 NextLine();
             }
             else
             {
                 StopAllCoroutines();
-                textcomponent.text = Text[index];
-                nameComp.text = characterName[index];
-                updateCharacterInfo();
+                textComponent.text = textList[currentIndex].lines[0];
+                nameComponent.text = textList[currentIndex].characterName[0];
+                characterImage.sprite = textList[currentIndex].characterSprite[0];
+                isTyping = false;
             }
         }
     }
 
-    void startDailogo()
+    private void StartDialogue()
     {
-        index = 0;
+        textComponent.text = string.Empty;
+        currentIndex = currentLineIndex = 0;
+        textStarted = true;
         StartCoroutine(TypeLine());
-        
-        updateCharacterInfo();
+        UpdateCharacterInfo();
     }
+
     IEnumerator TypeLine()
     {
-        foreach (char c in Text[index].ToCharArray())
+        isTyping = true;
+        foreach (char c in textList[currentIndex].lines[currentLineIndex].ToCharArray())
         {
-            textcomponent.text += c;
-            yield return new WaitForSeconds(textspeed);
+            textComponent.text += c;
+            yield return new WaitForSeconds(TextSpeed);
         }
+
+        isTyping = false;
     }
-    void NextLine()
+
+    private void NextLine()
     {
-        if (index < Text.Length - 1)
+        if (currentLineIndex < textList[currentIndex].lines.Length - 1)
         {
-            index++;
-            textcomponent.text = string.Empty;
+            currentLineIndex++;
+            textComponent.text = string.Empty;
             StartCoroutine(TypeLine());
-            
-            updateCharacterInfo();
+            UpdateCharacterInfo();
+        }
+        else
+        {
+            currentIndex++;
+            if (currentIndex < textList.Count)
+            {
+                currentLineIndex = 0;
+                textComponent.text = string.Empty;
+                StartCoroutine(TypeLine());
+                UpdateCharacterInfo();
+            }
+            else
+            {
+                SceneManager.LoadScene("Map");
+            }
         }
     }
 
-    void updateCharacterInfo()
+    private void UpdateCharacterInfo()
     {
-        if (index < characterName.Length)
-        {
-            nameComp.text = characterName[index];
-        }
-
-        if (index < mysprites.Length)
-        {
-            Character.sprite = mysprites[index];
+        if (currentLineIndex < textList[currentIndex].characterName.Length && currentLineIndex < textList[currentIndex].characterSprite.Length) 
+        { 
+            nameComponent.text = textList[currentIndex].characterName[currentLineIndex]; 
+            characterImage.sprite = textList[currentIndex].characterSprite[currentLineIndex];
         }
     }
 }
 
+[Serializable] public class CustomList
+{
+    public string[] lines;
+    public string[] characterName;
+    public Sprite[] characterSprite;
+}

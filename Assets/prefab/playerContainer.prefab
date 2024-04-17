@@ -136,6 +136,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementspeed: 10
   anime: {fileID: 3740862571468161035}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!95 &3740862571468161035
 Animator:
   serializedVersion: 5
