@@ -6,7 +6,8 @@ public class movement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private LayerMask groundLayer;
-    
+    [SerializeField] private float tileSize = 1.0f;
+
     private Vector3 targetPosition;
 
     void Update()
@@ -18,7 +19,11 @@ public class movement : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
             {
-                targetPosition = hit.point;
+                Vector3 hitPoint = hit.point;
+                hitPoint.x = Mathf.Floor(hitPoint.x / tileSize) * tileSize + tileSize / 2.0f;
+                hitPoint.z = Mathf.Floor(hitPoint.z / tileSize) * tileSize + tileSize / 2.0f;
+
+                targetPosition = hitPoint;
             }
         }
         MoveToPosition(targetPosition);

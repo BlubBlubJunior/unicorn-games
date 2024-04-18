@@ -151,6 +151,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: battleplayer
       objectReference: {fileID: 0}
+    - target: {fileID: 7806665852313854246, guid: 2ae100bb1e4bcb947a3e03909551c37b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8603078320696264937, guid: 2ae100bb1e4bcb947a3e03909551c37b, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.46145
@@ -414,6 +418,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  tileSize: 1
 --- !u!1 &1816484267
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1816484269}
   - component: {fileID: 1816484268}
+  - component: {fileID: 1816484270}
   m_Layer: 0
   m_Name: GridManager
   m_TagString: Untagged
@@ -438,7 +444,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1816484267}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c197788b7310de2409dd6d50d3fba9a9, type: 3}
   m_Name: 
@@ -462,6 +468,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1816484270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816484267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b38bdedf3d955dd41a34c93b8bab402d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rows: 10
+  cloums: 10
+  scale: 1
+  gridprefab: {fileID: 1187329824097931580, guid: 3e046e190ac72bd4fbf41a88a6980e4f, type: 3}
+  leftbottomLocation: {x: 0, y: 0, z: 0}
+  startX: 0
+  startY: 0
+  endX: 6
+  endY: 6
+  path: []
+  finddistance: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
