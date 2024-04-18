@@ -15,13 +15,16 @@ public class Spawner : MonoBehaviour
     {
         foreach (container con in mycon)
         {
-            if (con.EnemiesSpawned <= con.MaxEnemiesCanSpawn) 
+            if (con.enemiesList.Count < con.MaxEnemiesCanSpawn) 
             {
                 con.Timer -= Time.deltaTime;
                 if (con.Timer <= 0)
                 {
                     Vector3 randomPosition = con.spawnpoint.transform.position + new Vector3(Random.Range(con.reach.x, -con.reach.x), 0, Random.Range(con.reach.y, -con.reach.y));
-                    Instantiate(con.enemyPrefab, randomPosition, quaternion.identity);
+                    GameObject obj = Instantiate(con.enemyPrefab, randomPosition, quaternion.identity);
+
+                    con.enemiesList.Add(obj);
+                    
                     con.Timer = con.ResetTimer;
                     con.EnemiesSpawned += 1;
                 } 

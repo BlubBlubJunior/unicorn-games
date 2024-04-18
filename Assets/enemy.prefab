@@ -127,7 +127,7 @@ MonoBehaviour:
   Timer: 0
   resetTimer: 0
   offset: 2
-  range: 44.6
+  range: 3
 --- !u!54 &4276107210432950403
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -9,6 +9,8 @@ using System;
     public GameObject spawnpoint;
     public GameObject enemyPrefab;
     public Vector3 reach;
+
+    public List<GameObject> enemiesList;
     
     public float Timer;
     public float ResetTimer;

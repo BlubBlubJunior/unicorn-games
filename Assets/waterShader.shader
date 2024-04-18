@@ -52,6 +52,7 @@ Shader "Custom/WaterShader"
         {
             Blend SrcAlpha OneMinusSrcAlpha
             Offset 1,1
+            ZWrite Off // Disable depth writing
 
             CGPROGRAM
             #pragma vertex vert
@@ -68,6 +69,9 @@ Shader "Custom/WaterShader"
                 float4 pos : SV_POSITION;
             };
 
+            float4 _Color; // Color for deep water
+            half _WaveStrength; // Strength of wave effect
+
             v2f vert(appdata v)
             {
                 v2f o;
@@ -77,7 +81,11 @@ Shader "Custom/WaterShader"
 
             half4 frag(v2f i) : SV_Target
             {
-                return half4(1, 1, 1, 0.5); // Adjust alpha for transparency
+                half depth = i.pos.z / i.pos.w; // Calculate depth based on clip space
+                half alpha = 1.0 - depth; // Inverse depth for transparency
+                alpha = saturate(alpha * _WaveStrength); // Apply wave strength
+
+                return half4(_Color.rgb, alpha); // Set color with adjusted alpha
             }
             ENDCG
         }
