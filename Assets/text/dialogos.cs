@@ -19,40 +19,51 @@ public class dialogos : MonoBehaviour
 
     [SerializeField] private List<CustomList> textList = new List<CustomList>();
 
-    private int currentIndex;
-    private int currentLineIndex;
+    public int currentIndex;
+    public int currentLineIndex;
     private bool isTyping;
     private bool textStarted;
 
+    public GameObject next;
+    public GameObject turnOff;
+
+    public NameInput nameInput;
+    public string playerName;
+    public string SP_world;
     private void Start()
     {
+        playerName = nameInput.getName();
+        
         InitializeVariables();
         StartDialogue();
     }
 
     private void InitializeVariables()
     {
+        print(" luca");
         currentIndex = currentLineIndex = 0;
         isTyping = textStarted = false;
     }
 
     private void Update()
     {
-        if (textStarted && Input.GetMouseButtonDown(0))
-        {
-            if (!isTyping)
+        
+            if (textStarted && Input.GetMouseButtonDown(0))
             {
-                NextLine();
-            }
-            else
-            {
-                StopAllCoroutines();
-                textComponent.text = textList[currentIndex].lines[0];
-                nameComponent.text = textList[currentIndex].characterName[0];
-                characterImage.sprite = textList[currentIndex].characterSprite[0];
-                isTyping = false;
-            }
-        }
+                if (!isTyping)
+                {
+                    NextLine();
+                }
+                else
+                {
+                    StopAllCoroutines();
+                    textComponent.text = textList[currentIndex].lines[currentLineIndex];
+                    nameComponent.text = textList[currentIndex].characterName[currentLineIndex];
+                    characterImage.sprite = textList[currentIndex].characterSprite[currentLineIndex];
+                    isTyping = false;
+                }
+            }     
+        
     }
 
     private void StartDialogue()
@@ -78,24 +89,26 @@ public class dialogos : MonoBehaviour
 
     private void NextLine()
     {
-        if (currentLineIndex < textList[currentIndex].lines.Length - 1)
+        if (currentLineIndex >= textList[currentIndex].lines.Length -1)
         {
-            currentLineIndex++;
-            textComponent.text = string.Empty;
-            StartCoroutine(TypeLine());
-            UpdateCharacterInfo();
-        }
-        else
-        {
+            print(" dirt");
             currentIndex++;
-            if (currentIndex < textList.Count)
+            currentLineIndex = 0;
+        }
+
+        currentLineIndex++;
+        textComponent.text = string.Empty;
+        StartCoroutine(TypeLine());
+        UpdateCharacterInfo();
+        
+        if (currentLineIndex == textList[currentIndex].lines.Length - 1)
+        {
+            if (textList[currentIndex].EnumKindText == TextKind.gameobjectOn)
             {
-                currentLineIndex = 0;
-                textComponent.text = string.Empty;
-                StartCoroutine(TypeLine());
-                UpdateCharacterInfo();
+                next.SetActive(true);
+                turnOff.SetActive(false);
             }
-            else
+            else if (textList[currentIndex].EnumKindText == TextKind.NoMove)
             {
                 SceneManager.LoadScene("Map");
             }
@@ -117,4 +130,11 @@ public class dialogos : MonoBehaviour
     public string[] lines;
     public string[] characterName;
     public Sprite[] characterSprite;
+    public TextKind EnumKindText;
+}
+
+[Serializable] public enum TextKind
+{
+    gameobjectOn,
+    NoMove
 }

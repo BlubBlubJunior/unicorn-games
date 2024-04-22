@@ -12,12 +12,15 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Tile _TilePrefab;
 
     [SerializeField] private Transform Cam;
+    
+    [SerializeField] private GameObject _PlayerPrefab;
 
     private Dictionary<Vector3, Tile> _tiles;
 
     private void Start()
     {
         GenerateGrid();
+        InstantiatePlayerOnTileZeroZero();
     }
 
     void GenerateGrid()
@@ -36,6 +39,13 @@ public class GridManager : MonoBehaviour
                 _tiles[new Vector3(x, 0, z)] = spawnedTile;
             }
         }
+    }
+
+    void InstantiatePlayerOnTileZeroZero()
+    {
+        var tileZeroZero = GetTileAtPosition(new Vector3(0, 0, 0));
+        
+        Instantiate(_PlayerPrefab, tileZeroZero.transform.position, Quaternion.identity);
     }
 
     public Tile GetTileAtPosition(Vector3 pos)
