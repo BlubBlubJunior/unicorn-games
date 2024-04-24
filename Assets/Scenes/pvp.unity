@@ -541,7 +541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1816484268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,8 +554,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c197788b7310de2409dd6d50d3fba9a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Width: 5
-  _Deept: 5
+  _Width: 10
+  _Deept: 10
   _TilePrefab: {fileID: 7938143034218111702, guid: 4ed57d1a2d4494140a5a0b869f12a5a2, type: 3}
   Cam: {fileID: 742934720}
   _PlayerPrefab: {fileID: 7806665852313854246, guid: 2ae100bb1e4bcb947a3e03909551c37b, type: 3}
@@ -586,9 +586,17 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 2747119750039582142, guid: 2ae100bb1e4bcb947a3e03909551c37b, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7806665852313854246, guid: 2ae100bb1e4bcb947a3e03909551c37b, type: 3}
       propertyPath: m_Name
       value: battleplayer (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7806665852313854246, guid: 2ae100bb1e4bcb947a3e03909551c37b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8603078320696264937, guid: 2ae100bb1e4bcb947a3e03909551c37b, type: 3}
       propertyPath: m_LocalPosition.x
