@@ -79,14 +79,17 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            navMeshAgent.SetDestination(target.position);
+            Vector3 targetPosition = closestTarget.position;
+            targetPosition.y = transform.position.y;
+            
+            navMeshAgent.SetDestination(targetPosition);
         }
     }
 
 
     void attacking()
     {
-        
+        Debug.Log("check");
     }
     void OnDrawGizmosSelected()
     {

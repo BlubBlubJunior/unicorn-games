@@ -44,7 +44,7 @@ public class playerController : MonoBehaviour
 
         if (move == true)
         {
-            MoveToPosition(targetPosition);      
+            //MoveToPosition(targetPosition);      
         }
     }
     void MoveToPosition(Vector3 target)

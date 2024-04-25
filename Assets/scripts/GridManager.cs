@@ -10,12 +10,15 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int _Width,_Deept;
 
     [SerializeField] private Tile _TilePrefab;
-
-    [SerializeField] private Transform Cam;
+    
     
     [SerializeField] private GameObject _PlayerPrefab;
 
     private Dictionary<Vector3, Tile> _tiles;
+
+    public Vector3 tileZeroZero;
+
+    private float distanceground = 0.2f;
 
     private void Start()
     {
@@ -43,18 +46,6 @@ public class GridManager : MonoBehaviour
 
     void InstantiatePlayerOnTileZeroZero()
     {
-        var tileZeroZero = GetTileAtPosition(new Vector3(0, 0, 0));
-        
-        Instantiate(_PlayerPrefab, tileZeroZero.transform.position, Quaternion.identity);
-    }
-
-    public Tile GetTileAtPosition(Vector3 pos)
-    {
-        if (_tiles.TryGetValue(pos, out var tile))
-        {
-            return tile;
-        }
-
-        return null;
+        Instantiate(_PlayerPrefab, new Vector3(0,distanceground,0), Quaternion.identity);
     }
 }
