@@ -168,3 +168,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1
   gridSize: 1
+  maxMoveRange: 1000
+  remainingMoveRange: 1000
+  moving: 0

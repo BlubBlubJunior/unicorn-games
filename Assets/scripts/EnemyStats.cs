@@ -10,37 +10,16 @@ public class EnemyStats : MonoBehaviour
     [SerializeField] public float currentHealth;
     [SerializeField] public float Attack;
     [SerializeField] public float Defence;
-    public List<PlayerStats> playerList = new List<PlayerStats>();
-    private void Start()
+    
+    public void TakeDamage(float damage)
     {
-        FindAllPlayers();
-    }
-
-    public void TakeDamage(PlayerStats stats)
-    {
-        Debug.Log(currentHealth + "lower");
-            if (currentHealth != null)
-            {
-                currentHealth -= stats.Attack;
-            }
-    }
-
-    void FindAllPlayers()
-    {
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        
-        foreach (GameObject playerObject in playerObjects)
+        if (currentHealth != null)
         {
-            PlayerStats Stats = playerObject.GetComponent<PlayerStats>();
-
-            if (Stats != null)
-            {
-                playerList.Add(Stats);
-            }
+            currentHealth -= damage;
+            Debug.Log(currentHealth + "lower");
         }
     }
     
-
     private void Update()
     {
         if (currentHealth <= 0)
