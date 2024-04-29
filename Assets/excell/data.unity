@@ -319,7 +319,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1646101795}
   - component: {fileID: 1646101794}
-  - component: {fileID: 1646101793}
   m_Layer: 0
   m_Name: Data
   m_TagString: Untagged
@@ -327,18 +326,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1646101793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1646101792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edc78236057f62f468b367cdd1311818, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1646101794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +338,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2084e119c48999448bed2686b020dae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlankItem: {fileID: 0}
+  BlankItem:
+    id: 0
+    name: 
+    descrioption: 
   ItemDatabase: []
 --- !u!4 &1646101795
 Transform:
