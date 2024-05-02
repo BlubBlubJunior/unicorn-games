@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class GridManager : MonoBehaviour
 {
@@ -25,7 +26,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Vector3 spawnpointEnemie;
     [SerializeField] private GameObject Enemie;
 
-
+    public List<GameObject> spawnedEnemies;
+    
     private Dictionary<Vector3, Tile> _tiles;
 
     public bool MapIsMade;
@@ -55,6 +57,13 @@ public class GridManager : MonoBehaviour
                 if (!isPositionOccupied(spawnPositon))
                 {
                     var spawnedTile = Instantiate(_TilePrefab, spawnPositon, Quaternion.Euler(90, 0, 0));
+                    int randomspawn = Random.Range(0, 100);
+                    if (randomspawn == 8 )
+                    {
+                        var spawnEnemy = Instantiate(Enemie, spawnPositon, quaternion.identity); 
+                        spawnEnemy.transform.SetParent(ParentTiles.transform);
+                        spawnedEnemies.Add(spawnEnemy);
+                    }
                     spawnedTile.name = $"Tile {x} {z}";
                     spawnedTile.transform.SetParent(ParentTiles.transform);
 
@@ -85,7 +94,6 @@ public class GridManager : MonoBehaviour
     void InstantiatePlayerOnTileZeroZero()
     {
         Instantiate(_PlayerPrefab, tileZeroZero, Quaternion.identity);
-        Instantiate(Enemie, spawnpointEnemie, quaternion.identity);
     }
 
     public void regererateGrid()
@@ -96,7 +104,7 @@ public class GridManager : MonoBehaviour
         MapIsMade = true;
     }
 
-    void removeOldGrid()
+    public void removeOldGrid()
     {
         if (_tiles != null)
         {
@@ -106,6 +114,8 @@ public class GridManager : MonoBehaviour
             }
             _tiles.Clear();
             
+            spawnedEnemies.Clear();
+            
             DestroyImmediate(GameObject.FindGameObjectWithTag("Player"));
             DestroyImmediate(GameObject.FindGameObjectWithTag("Enemy"));
             
@@ -114,6 +124,7 @@ public class GridManager : MonoBehaviour
                 if (obj != ParentTiles.transform)
                 {
                     DestroyImmediate(obj.gameObject);
+                    DestroyImmediate(GameObject.FindGameObjectWithTag("Enemy"));
                 }
             }     
         }
@@ -132,6 +143,11 @@ public class GridManager : MonoBehaviour
         if (GUILayout.Button("Regenerate Grid"))
         {
             gridManager.regererateGrid();
+        }
+        
+        if (GUILayout.Button("Remove Grid"))
+        {
+            gridManager.removeOldGrid();
         }
     }
 }

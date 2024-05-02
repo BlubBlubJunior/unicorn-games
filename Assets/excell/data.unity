@@ -123,6 +123,71 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &8296480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8296482}
+  - component: {fileID: 8296481}
+  m_Layer: 0
+  m_Name: dt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &8296481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2442fa6355f2e499f539056b7f6f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BlankItem:
+    text: 
+    team: 0
+    question: 0
+    madness: 0
+  ItemDatabase:
+  - text: afw
+    team: 0
+    question: 0
+    madness: 0
+  - text: bgf
+    team: 0
+    question: 0
+    madness: 0
+  - text: vbgg
+    team: 0
+    question: 0
+    madness: 0
+  text: {fileID: 4900000, guid: 5acf3cf1af1a3ac42aed46bbb0d65026, type: 3}
+  textName: ' text '
+  teamName: 
+--- !u!4 &8296482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296480}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 461.92877, y: 51.96965, z: 587.92914}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &81762758
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,10 +404,140 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlankItem:
-    id: 0
-    name: 
-    descrioption: 
-  ItemDatabase: []
+    text: 
+    team: 0
+    question: 0
+    madness: 0
+  ItemDatabase:
+  - text: lerum opsit
+    team: 1
+    question: 1
+    madness: 70
+  - text: 'text '
+    team: 1
+    question: 2
+    madness: 40
+  - text: mag ik u papieren zien
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: bubub
+    team: 3
+    question: 1
+    madness: 60
+  - text: jkhkuhkjh
+    team: 2
+    question: 3
+    madness: 8
+  text: {fileID: 4900000, guid: b65ddf2f70186cd4fbd4019630bee932, type: 3}
+  textName: 'text '
+  teamName: 'team '
+  questionName: 'question '
+  MadnessName: 'madness '
 --- !u!4 &1646101795
 Transform:
   m_ObjectHideFlags: 0
@@ -365,3 +560,4 @@ SceneRoots:
   - {fileID: 1034333529}
   - {fileID: 81762760}
   - {fileID: 1646101795}
+  - {fileID: 8296482}

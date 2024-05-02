@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public class Item
 {
-    public int id;
-    public string name;
-    public string descrioption;
+    public string text;
+    public int team;
+    public int question;
+    public int madness;
 
     public Item(Item d)
     {
-        id = d.id;
-        name = d.name;
-        descrioption = d.descrioption;
+        text = d.text;
+        team = d.team;
+        question = d.question;
+        madness = d.madness;
     }
 }

@@ -3,36 +3,49 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LoadExcel : MonoBehaviour
 {
     public Item BlankItem;
     public List<Item> ItemDatabase = new List<Item>();
 
+    public TextAsset text;
+
+    public string textName, teamName, questionName, MadnessName;
+    
     public void loadItemData()
     {
         ItemDatabase.Clear();
         
-        List<Dictionary<string, object>> data = CSVReader.Read("ItemDatabase");
+        List<Dictionary<string, object>> data = CSVReader.Read(text.ToString());
         
-        for (var i = 0; i < data.Count; i++)
+        for (var i = 0; i < data.Count; i++) 
         {
-            int id = int.Parse(data[i]["id"].ToString(), System.Globalization.NumberStyles.Integer);
-            string name = data[i]["name"].ToString();
-            string descrioption = data[i]["descrioption"].ToString();
-
-            AddItem(id, name, descrioption);
-            print(id + name + descrioption);
+            if (data[i].ContainsKey(textName))
+            {
+                string text = data[i][textName].ToString();
+                int team = int.Parse(data[i][teamName].ToString(), System.Globalization.NumberStyles.Integer);
+                int question = int.Parse(data[i][questionName].ToString(), System.Globalization.NumberStyles.Integer);
+                int madness = int.Parse(data[i][MadnessName].ToString(), System.Globalization.NumberStyles.Integer);
+                
+                AddItem(text ,team ,question, madness);       
+            }
+            else
+            {
+                Debug.Log(" help");
+            }
         }
     }
 
-    void AddItem(int id, string name, string descrioption)
+    void AddItem(string text, int team , int question, int madness)
     {
         Item tempItem = new Item(BlankItem);
-    print(" gafwoif");
-        tempItem.id = id;
-        tempItem.name = name;
-        tempItem.descrioption = descrioption;
+        
+        tempItem.text = text;
+        tempItem.team = team;
+        tempItem.question = question;
+        tempItem.madness = madness;
         
         ItemDatabase.Add(tempItem);
     }

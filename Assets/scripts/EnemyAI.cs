@@ -9,9 +9,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private List<Transform> Targets;
 
     [SerializeField] private float speed;
-
-    [SerializeField] private float rotationSpeed;
-
+    
     [SerializeField] private float Timer;
     [SerializeField] private float resetTimer;
 
@@ -81,6 +79,7 @@ public class EnemyAI : MonoBehaviour
         {
             Vector3 targetPosition = closestTarget.position;
             targetPosition.y = transform.position.y;
+            
             
             navMeshAgent.SetDestination(targetPosition);
         }
