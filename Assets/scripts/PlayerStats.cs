@@ -14,9 +14,28 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] public float Defence;
     [SerializeField] public float damage;
     
+    private bool isSelected;
+
+    public GameObject selectobject;
+
+    public bool IsSelected => isSelected;
     private void Update()
     {
         damage = Strength;
+    }
+    
+    public void Select()
+    {
+        isSelected = true;
+        // Add any visual feedback for selection here
+        selectobject.SetActive(true);
+    }
+
+    public void Deselect()
+    {
+        isSelected = false;
+        // Remove any visual feedback for deselection here
+        selectobject.SetActive(false);
     }
 }
 

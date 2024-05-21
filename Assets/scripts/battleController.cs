@@ -1,60 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class battleController : MonoBehaviour
 {
-    public float moveSpeed = 1f; 
+    public float moveSpeed = 1f;
     public float gridSize = 1f;
     public int maxMoveRange = 5;
     public int remainingMoveRange;
-    public LayerMask Groundlayer;
+    public LayerMask groundLayer;
+    public LayerMask enemyLayer;
+    public GameObject particles;
+
     
     private Vector3 targetPosition;
-    
     public bool canMove = true;
-
-    public LayerMask enemieLayer;
-
-    public GameObject particales;
-
-    private PlayerStats playerStats;
+    private GameObject selectedUnit;
+    private PlayerStats selectedPlayerStats;
+    public GridManager gridManager;
     void Start()
     {
-        playerStats = GetComponent<PlayerStats>();
+        selectedPlayerStats = GetComponent<PlayerStats>();
         targetPosition = transform.position;
         remainingMoveRange = maxMoveRange;
+        gridManager = FindObjectOfType<GridManager>(); 
     }
 
     void Update()
     {
-        
-        if (Input.GetMouseButtonDown(0) && remainingMoveRange > 0 && canMove) 
+        if (Input.GetMouseButtonDown(0) && canMove)
         {
-         
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+            
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, Groundlayer))
+            if (Physics.Raycast(ray, out hit))
             {
-                Vector3 gridPosition = RoundToNearestGrid(hit.point);
-                float distance = Vector3.Distance(transform.position, gridPosition) / gridSize;
+                GameObject clickedObject = hit.collider.gameObject;
 
-                if (distance <= remainingMoveRange && !isTileOccupied(gridPosition))
+                if (clickedObject.CompareTag("Player"))
                 {
-                    canMove = false;
-                    Move(gridPosition);
-                    remainingMoveRange -= (int)distance;
+                    SelectUnit(clickedObject);
+                }
+                else if (selectedUnit != null && remainingMoveRange > 0)
+                {
+                    moveToPosition(hit.point);
                 }
             }
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if (Input.GetMouseButtonDown(1) && selectedUnit != null)
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, enemieLayer))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, enemyLayer))
             {
                 Vector3 enemyposition = hit.collider.transform.position;
                 float distance = Vector3.Distance(transform.position, enemyposition) / gridSize;
@@ -62,8 +63,8 @@ public class battleController : MonoBehaviour
                 if (distance <= 1)
                 {
                     EnemyStats enemyHealth = hit.collider.GetComponent<EnemyStats>();
-                    enemyHealth.TakeDamage(playerStats.damage);
-                    GameObject particle = Instantiate(particales, hit.transform.position, quaternion.identity);
+                    enemyHealth.TakeDamage(selectedPlayerStats.damage);
+                    GameObject particle = Instantiate(particles, hit.transform.position, quaternion.identity);
                     StartCoroutine(DestroyParticlesAfterDelay(particle, 5f));
                 }
             }
@@ -72,14 +73,52 @@ public class battleController : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
     }
 
+    void SelectUnit(GameObject unit)
+    {
+        if (selectedUnit == unit)
+        {
+            selectedPlayerStats.Deselect();
+            selectedUnit = null;
+            selectedPlayerStats = null;
+            return;
+        }
+        
+        if (selectedUnit != null)
+        {
+            selectedPlayerStats.Deselect();
+        }
+        
+        selectedUnit = unit;
+        selectedPlayerStats = unit.GetComponent<PlayerStats>();
+        selectedPlayerStats.Select();
+        
+        gridManager.highLightTilesInRange(selectedUnit.transform.position, remainingMoveRange);
+    }
+
+    void moveToPosition(Vector3 destination)
+    {
+        Ray ray = new Ray(transform.position, destination - transform.position);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, remainingMoveRange * gridSize, groundLayer))
+        {
+            Vector3 gridPosition = RoundToNearestGrid(hit.point);
+            float distance = Vector3.Distance(transform.position, gridPosition) / gridSize;
+
+            if (distance <= remainingMoveRange && !isTileOccupied(gridPosition) && selectedUnit != null && selectedUnit.transform == transform)
+            {
+                canMove = false;
+                StartCoroutine(moveToDestination(gridPosition));
+                remainingMoveRange -= (int)distance;    
+                    
+            }
+        }
+    }
+    
     IEnumerator DestroyParticlesAfterDelay(GameObject particle, float delay)
     {
         yield return new WaitForSeconds(delay);
         Destroy(particle);
-    }
-    void Move(Vector3 destination)
-    {
-        StartCoroutine(moveToDestination(destination));
     }
 
     IEnumerator moveToDestination(Vector3 destination)
@@ -116,7 +155,7 @@ public class battleController : MonoBehaviour
 
     bool isTileOccupied(Vector3 position)
     {
-        Collider[] colliders = Physics.OverlapSphere(position, 0.1f, Groundlayer);
+        Collider[] colliders = Physics.OverlapSphere(position, 0.1f, groundLayer);
 
         foreach (Collider col in colliders)
         {

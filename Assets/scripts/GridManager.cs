@@ -27,10 +27,12 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject Enemie;
 
     public List<GameObject> spawnedEnemies;
-    
+
     private Dictionary<Vector3, Tile> _tiles;
 
     public bool MapIsMade;
+
+    public int randomspawn;
 
     private void Start()
     {
@@ -46,6 +48,28 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public void highLightTilesInRange(Vector3 center, int range)
+    {
+        Debug.Log("fux");
+        if (_tiles == null)
+        {
+            Debug.LogWarning("Tiles dictionary is not initialized.");
+            return;
+        }
+        Debug.Log("heck");
+        foreach (var tile in _tiles.Values)
+        {
+            float distance = Vector3.Distance(center, tile.transform.position);
+            if (distance <= range)
+            {
+                tile.HighLight(true);
+                Debug.Log("check");
+            }
+            {
+                tile.HighLight(false);
+            }
+        }
+    }
     void GenerateGrid()
     {
         _tiles = new Dictionary<Vector3, Tile>();
@@ -56,9 +80,9 @@ public class GridManager : MonoBehaviour
                 Vector3 spawnPositon = new Vector3(x, 0, z);
                 if (!isPositionOccupied(spawnPositon))
                 {
-                    var spawnedTile = Instantiate(_TilePrefab, spawnPositon, Quaternion.Euler(90, 0, 0));
-                    int randomspawn = Random.Range(0, 100);
-                    if (randomspawn == 8 )
+                    var spawnedTile = Instantiate(_TilePrefab, spawnPositon, Quaternion.Euler(90, 0, 0)); 
+                    randomspawn = Random.Range(0, 1000);
+                    if (randomspawn == 1 )
                     {
                         var spawnEnemy = Instantiate(Enemie, spawnPositon, quaternion.identity); 
                         spawnEnemy.transform.SetParent(ParentTiles.transform);
@@ -94,6 +118,8 @@ public class GridManager : MonoBehaviour
     void InstantiatePlayerOnTileZeroZero()
     {
         Instantiate(_PlayerPrefab, tileZeroZero, Quaternion.identity);
+
+        Instantiate(Enemie, spawnpointEnemie, quaternion.identity);
     }
 
     public void regererateGrid()

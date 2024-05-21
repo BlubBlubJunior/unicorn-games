@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    [SerializeField] private Color _baseColor, _offSetColor;
+    [SerializeField] private Color _baseColor, _offSetColor, highLighedColor;
 
     [SerializeField] private SpriteRenderer _renderer;
 
@@ -16,6 +16,10 @@ public class Tile : MonoBehaviour
         _renderer.color = isOffset ? _offSetColor : _baseColor;
     }
 
+    public void HighLight(bool highlight)
+    {
+        _renderer.color = highlight ? highLighedColor : _baseColor;
+    }
     void OnMouseEnter()
     {
         _highLight.SetActive(true);
