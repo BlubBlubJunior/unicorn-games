@@ -26,16 +26,6 @@ public class TransParent : MonoBehaviour
             
                 rend.material.color = tempColor;
             }
-            else
-            {
-                rend.material.shader = Shader.Find("lit"); 
-                Color tempColor = rend.material.color;
-            
-                tempColor.a = 0.3f;
-            
-                rend.material.color = tempColor;
-                
-            }
         }
 
     }
