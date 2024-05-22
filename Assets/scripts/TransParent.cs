@@ -1,53 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Analytics;
 using UnityEngine;
 
 public class TransParent : MonoBehaviour
 {
-    public Transform player;
-    public Camera mainCamera;
-    public float transparencyDistance = 5f;
-
-    private Renderer rend;
-
-    void Start()
-    {
-        rend = GetComponent<Renderer>();
-    }
-
+    
     void Update()
     {
-        if (player == null)
-            player = FindObjectOfType<playerController>()?.transform;
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(transform.position, transform.forward, 100f);
 
-        if (mainCamera == null)
-            mainCamera = Camera.main;
-        
-        
-        if (player == null || mainCamera == null)
-            return;
-        
-        Vector3 directionToPlayer = player.position - mainCamera.transform.position;
-        
-        Ray ray = new Ray(mainCamera.transform.position, directionToPlayer.normalized);
-        RaycastHit hit;
-        
-        if (Physics.Raycast(ray, out hit, directionToPlayer.magnitude))
+        for (int i = 0; i < hits.Length; i++)
         {
-            if (hit.collider.gameObject == gameObject)
-                return;
+            RaycastHit hit = hits[i];
+            Renderer rend = hit.transform.GetComponent<Renderer>();
+
+
+            if (rend)
+            {
+                rend.material.shader = Shader.Find("Hidden/UnlitTransparentColored"); 
+                Color tempColor = rend.material.color;
             
-            float transparency = Mathf.InverseLerp(0, transparencyDistance, hit.distance);
+                tempColor.a = 0.3f;
             
-            Color materialColor = rend.material.color;
-            materialColor.a = transparency;
-            rend.material.color = materialColor;
+                rend.material.color = tempColor;
+            }
+            else
+            {
+                rend.material.shader = Shader.Find("lit"); 
+                Color tempColor = rend.material.color;
+            
+                tempColor.a = 0.3f;
+            
+                rend.material.color = tempColor;
+                
+            }
         }
-        else
-        {
-            Color materialColor = rend.material.color;
-            materialColor.a = 1f;
-            rend.material.color = materialColor;
-        }
+
     }
 }
