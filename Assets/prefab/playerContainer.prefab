@@ -139,6 +139,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!95 &3740862571468161035
 Animator:
   serializedVersion: 5
@@ -328,4 +329,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 7045357190012329846}
   smoothTime: 0.3
-  offset: {x: 0, y: 10, z: -15}
+  offset: {x: 0, y: 7, z: -10}
