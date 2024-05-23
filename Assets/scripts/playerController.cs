@@ -26,7 +26,7 @@ public class playerController : MonoBehaviour
     {
         anime.SetFloat("sidemovement", movedirection.x);
         
-        movedirection = new Vector3(Input.GetAxis("Horizontal"),0f, Input.GetAxis("Vertical"));
+        movedirection = new Vector3(Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical"));
 
 
         if (Input.GetMouseButtonDown(0))

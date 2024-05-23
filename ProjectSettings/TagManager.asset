@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - obs
+  - Terrian
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - UI
   - Ground
   - en
-  - Terrian
   - 
+  - post processing
   - 
   - 
   - 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TransParent : MonoBehaviour
 {
-    
+    public Renderer rend;
     void Update()
     {
         RaycastHit[] hits;
@@ -14,17 +14,20 @@ public class TransParent : MonoBehaviour
         for (int i = 0; i < hits.Length; i++)
         {
             RaycastHit hit = hits[i];
-            Renderer rend = hit.transform.GetComponent<Renderer>();
-
-
+            rend = hit.transform.GetComponent<Renderer>();
+            
             if (rend)
             {
-                rend.material.shader = Shader.Find("Hidden/UnlitTransparentColored"); 
-                Color tempColor = rend.material.color;
+                if (hit.collider.CompareTag("Terrian"))
+                {
+                    rend.material.shader = Shader.Find("Hidden/UnlitTransparentColored"); 
+                    
+                    Color tempColor = rend.material.color;
             
-                tempColor.a = 0.3f;
+                    tempColor.a = 0.3f;
             
-                rend.material.color = tempColor;
+                    rend.material.color = tempColor; 
+                } 
             }
         }
 
