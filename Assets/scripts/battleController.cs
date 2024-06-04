@@ -109,8 +109,6 @@ public class battleController : MonoBehaviour
             {
                 canMove = false;
                 StartCoroutine(moveToDestination(gridPosition));
-                remainingMoveRange -= (int)distance;    
-                    
             }
         }
     }
@@ -125,17 +123,26 @@ public class battleController : MonoBehaviour
     {
         while (transform.position != destination)
         {
+            Vector3 currentPos = transform.position;
             Vector3 diff = destination - transform.position;
 
-            if (Mathf.Abs(diff.x) > Mathf.Abs(diff.z))
+            if (Mathf.Abs(diff.x) > 0.000001f)
             {
-                targetPosition = new Vector3(Mathf.MoveTowards(transform.position.x, destination.x, gridSize), transform.position.y, transform.position.z);
+                float targetX = Mathf.MoveTowards(currentPos.x, destination.x, gridSize);
+                targetPosition = new Vector3(targetX, currentPos.y, currentPos.z);
+                
+                remainingMoveRange -= Mathf.CeilToInt(Mathf.Abs(targetX - currentPos.x));
             }
-            else
+            else if (Mathf.Abs(diff.z) > 0.1f)
             {
-                targetPosition = new Vector3(transform.position.x, transform.position.y, Mathf.MoveTowards(transform.position.z, destination.z, gridSize));
-            }
+                float targetZ = Mathf.MoveTowards(currentPos.z, destination.z, gridSize);
+                targetPosition = new Vector3(currentPos.x,currentPos.y,targetZ);
 
+                remainingMoveRange -= Mathf.CeilToInt(Mathf.Abs(targetZ - currentPos.z));
+            }
+            
+            transform.position = Vector3.MoveTowards(currentPos, targetPosition, gridSize * Time.deltaTime);
+            
             yield return null;
         }
 

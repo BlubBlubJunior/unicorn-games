@@ -19,48 +19,54 @@ public class EnemyAIBattle : MonoBehaviour
     private List<GameObject> player;
     
     public LayerMask obstacleLayer;
+
+    public Vector3 verticalTarget;
+    public Vector3 horizontalTarget;
+
+    public int remainingMoves;
+    public int resetMovement;
     void Update()
     {
-        
-        Collider[] colliders = Physics.OverlapSphere(transform.position, range);
-
-        foreach (Collider col in colliders)
+        if (remainingMoves > 0)
         {
-            if (col.CompareTag("Player"))
+            Collider[] colliders = Physics.OverlapSphere(transform.position, range);
+
+            foreach (Collider col in colliders)
             {
-                
-                targetPosition = col.transform.position;
-                //Vector3 gridPosition = RoundToNearestGrid(col.transform.position);
-                //Vector3 direction = (gridPosition - transform.position).normalized;
-                //float distance = Vector3.Distance(transform.position, col.transform.position) / gridSize;
-                
-                //targetPosition = gridPosition;
-                
-                if (Physics.Raycast(gameObject.transform.position + Vector3.up * 0.5f, Vector3.down ,1f, groundLayer))
+                if (col.CompareTag("Player"))
                 {
-                    if (canMove)
+                    targetPosition = col.transform.position;
+
+                    if (Physics.Raycast(gameObject.transform.position + Vector3.up * 0.5f, Vector3.down, 1f, groundLayer))
                     {
-                        hasTarget = true;
-                        verticalPhase = true;
-                        //StartCoroutine(MoveToDestination(targetPosition));
-                        MoveToTarget();
+                        if (canMove)
+                        {
+                            verticalTarget = new Vector3(transform.position.x, transform.position.y, targetPosition.z);
+                            horizontalTarget = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
+                            hasTarget = true;
+                        }
+
+                        if (verticalTarget.z != targetPosition.z)
+                        {
+                            verticalPhase = true;
+                        }
                     }
                 }
             }
+            MoveToTarget();
         }
         
     }
     
     void MoveToTarget()
     {
-        if (hasTarget)
+        if (hasTarget && remainingMoves > 0)
         {
-            if (verticalPhase)
+            if (verticalPhase == true)
             {
-                Vector3 verticalTarget = new Vector3(transform.position.x, transform.position.y, targetPosition.z);
                 if (!IsPathBlocked(verticalTarget))
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, verticalTarget, moveSpeed * Time.deltaTime);
+                    moveTowardsTarget(verticalTarget);
                     if (Mathf.Approximately(transform.position.z, verticalTarget.z))
                     {
                         verticalPhase = false;
@@ -73,23 +79,18 @@ public class EnemyAIBattle : MonoBehaviour
             }
             else
             {
-                Vector3 horizontalTarget = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
-                if (!IsPathBlocked(horizontalTarget))
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, horizontalTarget, moveSpeed * Time.deltaTime);
-                    if (Mathf.Approximately(transform.position.x, horizontalTarget.x))
-                    {
-                        hasTarget = false;
-                    }
-                }
-                else
-                {
-                    AvoidObstacle();
-                }
+                moveTowardsTarget(horizontalTarget);
             }
         }
     }
 
+    void moveTowardsTarget(Vector3 target)
+    {
+        float step = moveSpeed * Time.deltaTime;
+        Vector3 newPostion = Vector3.MoveTowards(transform.position, target, step);
+        remainingMoves -= Mathf.FloorToInt(Vector3.Distance(transform.position, newPostion) / gridSize);
+        transform.position = newPostion;
+    }
     bool IsPathBlocked(Vector3 target)
     {
         RaycastHit hit;
@@ -97,52 +98,40 @@ public class EnemyAIBattle : MonoBehaviour
         float distance = Vector3.Distance(transform.position, target);
         if (Physics.Raycast(transform.position, direction, out hit, distance, obstacleLayer))
         {
-            return true; // Path is blocked by an obstacle
+            return true;
         }
         return false;
     }
 
     void AvoidObstacle()
     {
-        // Move the object away from the obstacle
-        Vector3 avoidanceDirection = transform.position - targetPosition;
-        avoidanceDirection.y = 0; // Keep movement horizontal
-        transform.position += avoidanceDirection.normalized * moveSpeed * Time.deltaTime;
-
-        // Ensure the object stays on the ground layer
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position + Vector3.up * 10, Vector3.down, out hit, Mathf.Infinity, groundLayer))
+        Collider[] colliders = Physics.OverlapSphere(transform.position, range, obstacleLayer);
+        if (colliders.Length > 0)
         {
-            transform.position = hit.point;
+            Vector3 avoidanceDirection = Vector3.zero;
+            float maxDistance = float.MinValue;
+
+            foreach (Collider col in colliders)
+            {
+                Vector3 toCollider = col.ClosestPoint(transform.position) - transform.position;
+                if (toCollider.magnitude > maxDistance)
+                {
+                    avoidanceDirection = toCollider;
+                    maxDistance = toCollider.magnitude;
+                }
+            }
+
+            avoidanceDirection = Vector3.Cross(avoidanceDirection.normalized, Vector3.up);
+            avoidanceDirection = transform.position + avoidanceDirection * gridSize;
+            if (IsPathBlocked(avoidanceDirection))
+            {
+                avoidanceDirection = transform.position - avoidanceDirection.normalized * gridSize;
+                remainingMoves -= Mathf.FloorToInt(Vector3.Distance(transform.position, avoidanceDirection) / gridSize);
+            }
         }
-        else
-        {
-            // If it leaves the ground layer, stop the movement
-            hasTarget = false;
-        }
+        
     }
-
-    IEnumerator MoveToDestination(Vector3 destination)
-    {
-        canMove = false;
-        while (Vector3.Distance(transform.position, destination) > 0.1f)
-        {
-            Vector3 direction = (destination - transform.position).normalized;
-            transform.position += direction * moveSpeed * Time.deltaTime;
-            yield return null;
-        }
-        transform.position = destination;  
-        canMove = true;
-    }
-
-    Vector3 RoundToNearestGrid(Vector3 position)
-    {
-        float x = Mathf.Round(position.x / gridSize) * gridSize;
-        float z = Mathf.Round(position.z / gridSize) * gridSize;
-
-        return new Vector3(x, transform.position.y, z);
-    }
-
+    
     void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(transform.position, range);
