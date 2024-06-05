@@ -1,10 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
-using UnityEngine.Serialization;
 
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public class LoadExceltry : MonoBehaviour
 {
     public Item BlankItem;
@@ -46,6 +47,8 @@ public class LoadExceltry : MonoBehaviour
         ItemDatabase.Add(tempItem);
     }
 }
+
+#if UNITY_EDITOR
 [CustomEditor(typeof(LoadExceltry))] public class ItemEditor1 : Editor
 {
     public override void OnInspectorGUI()
@@ -61,3 +64,4 @@ public class LoadExceltry : MonoBehaviour
         }
     }
 }
+#endif

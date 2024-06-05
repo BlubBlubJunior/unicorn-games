@@ -1,12 +1,13 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class GridManager : MonoBehaviour
 {
@@ -158,6 +159,7 @@ public class GridManager : MonoBehaviour
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(GridManager))] public class GridManagerEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -177,3 +179,4 @@ public class GridManager : MonoBehaviour
         }
     }
 }
+#endif

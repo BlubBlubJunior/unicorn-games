@@ -1,9 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
-using UnityEngine.Serialization;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class LoadExcel : MonoBehaviour
 {
@@ -50,6 +51,8 @@ public class LoadExcel : MonoBehaviour
         ItemDatabase.Add(tempItem);
     }
 }
+
+#if UNITY_EDITOR
 [CustomEditor(typeof(LoadExcel))] public class ItemEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -65,3 +68,4 @@ public class LoadExcel : MonoBehaviour
         }
     }
 }
+#endif
