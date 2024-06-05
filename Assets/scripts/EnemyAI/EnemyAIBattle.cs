@@ -25,9 +25,11 @@ public class EnemyAIBattle : MonoBehaviour
 
     public int remainingMoves;
     public int resetMovement;
+
+    public bool EnemyTurn;
     void Update()
     {
-        if (remainingMoves > 0)
+        if (remainingMoves > 0 && EnemyTurn == true)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, range);
 
@@ -41,8 +43,8 @@ public class EnemyAIBattle : MonoBehaviour
                     {
                         if (canMove)
                         {
-                            verticalTarget = new Vector3(transform.position.x, transform.position.y, targetPosition.z);
-                            horizontalTarget = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
+                            //horizontalTarget = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
+                            //verticalTarget = new Vector3(transform.position.x, transform.position.y, targetPosition.z);
                             hasTarget = true;
                         }
 
@@ -56,6 +58,7 @@ public class EnemyAIBattle : MonoBehaviour
             MoveToTarget();
         }
         
+        
     }
     
     void MoveToTarget()
@@ -63,10 +66,13 @@ public class EnemyAIBattle : MonoBehaviour
         if (hasTarget && remainingMoves > 0)
         {
             if (verticalPhase == true)
-            {
+            { 
                 if (!IsPathBlocked(verticalTarget))
                 {
-                    moveTowardsTarget(verticalTarget);
+                    verticalTarget = new Vector3(transform.position.x, transform.position.y, targetPosition.z);
+                    
+                    moveTowardsTarget(verticalTarget); 
+                    
                     if (Mathf.Approximately(transform.position.z, verticalTarget.z))
                     {
                         verticalPhase = false;
@@ -79,6 +85,7 @@ public class EnemyAIBattle : MonoBehaviour
             }
             else
             {
+                horizontalTarget = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
                 moveTowardsTarget(horizontalTarget);
             }
         }

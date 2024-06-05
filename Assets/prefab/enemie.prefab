@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3490539026050848370}
   - component: {fileID: 5367604553163701364}
   - component: {fileID: 4707362971076744798}
+  - component: {fileID: 7234849586525484688}
   m_Layer: 7
   m_Name: enemie
   m_TagString: Enemy
@@ -121,3 +122,32 @@ MonoBehaviour:
   currentHealth: 100
   Attack: 0
   Defence: 0
+--- !u!114 &7234849586525484688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8504481712619800472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc34e9f7511182a4ea2e9cc8c148d3e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridSize: 1
+  moveSpeed: 10
+  canMove: 1
+  targetPosition: {x: 0, y: 0, z: 0}
+  hasTarget: 0
+  verticalPhase: 1
+  range: 14.42
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  verticalTarget: {x: 0, y: 0, z: 0}
+  horizontalTarget: {x: 0, y: 0, z: 0}
+  remainingMoves: 100
+  resetMovement: 100

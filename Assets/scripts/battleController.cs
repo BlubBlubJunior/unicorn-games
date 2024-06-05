@@ -3,39 +3,41 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class battleController : MonoBehaviour
 {
-    public float moveSpeed = 1f;
-    public float gridSize = 1f;
-    public int maxMoveRange = 5;
-    public int remainingMoveRange;
+    public float MovementSpeed = 1f; 
+    public float gridSize = 1f; //per how many grids it snaps to.
+    public int ResetMovementRange = 5; //resetting the amount of grids it can move.
+    public int remainingMovementRange; //how many grids it can move over in this turn
     public LayerMask groundLayer;
     public LayerMask enemyLayer;
     public GameObject particles;
 
     
-    private Vector3 targetPosition;
-    public bool canMove = true;
+    private Vector3 targetPosition; 
+    private bool canMove = true;
     private GameObject selectedUnit;
     private PlayerStats selectedPlayerStats;
-    public GridManager gridManager;
+    private GridManager gridManager;
+
+    public bool playerTurn;
     void Start()
     {
         selectedPlayerStats = GetComponent<PlayerStats>();
+        remainingMovementRange = ResetMovementRange; //resetting movement
         targetPosition = transform.position;
-        remainingMoveRange = maxMoveRange;
         gridManager = FindObjectOfType<GridManager>(); 
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && canMove)
+        if (Input.GetMouseButtonDown(0) && canMove && playerTurn == true)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             
-
             if (Physics.Raycast(ray, out hit))
             {
                 GameObject clickedObject = hit.collider.gameObject;
@@ -44,7 +46,7 @@ public class battleController : MonoBehaviour
                 {
                     SelectUnit(clickedObject);
                 }
-                else if (selectedUnit != null && remainingMoveRange > 0)
+                else if (selectedUnit != null && remainingMovementRange > 0)
                 {
                     moveToPosition(hit.point);
                 }
@@ -70,7 +72,7 @@ public class battleController : MonoBehaviour
             }
         }
         
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, MovementSpeed * Time.deltaTime);
     }
 
     void SelectUnit(GameObject unit)
@@ -92,7 +94,7 @@ public class battleController : MonoBehaviour
         selectedPlayerStats = unit.GetComponent<PlayerStats>();
         selectedPlayerStats.Select();
         
-        gridManager.highLightTilesInRange(selectedUnit.transform.position, remainingMoveRange);
+        gridManager.highLightTilesInRange(selectedUnit.transform.position, remainingMovementRange);
     }
 
     void moveToPosition(Vector3 destination)
@@ -100,12 +102,12 @@ public class battleController : MonoBehaviour
         Ray ray = new Ray(transform.position, destination - transform.position);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, remainingMoveRange * gridSize, groundLayer))
+        if (Physics.Raycast(ray, out hit, remainingMovementRange * gridSize, groundLayer))
         {
             Vector3 gridPosition = RoundToNearestGrid(hit.point);
             float distance = Vector3.Distance(transform.position, gridPosition) / gridSize;
 
-            if (distance <= remainingMoveRange && !isTileOccupied(gridPosition) && selectedUnit != null && selectedUnit.transform == transform)
+            if (distance <= remainingMovementRange && !isTileOccupied(gridPosition) && selectedUnit != null && selectedUnit.transform == transform)
             {
                 canMove = false;
                 StartCoroutine(moveToDestination(gridPosition));
@@ -131,14 +133,14 @@ public class battleController : MonoBehaviour
                 float targetX = Mathf.MoveTowards(currentPos.x, destination.x, gridSize);
                 targetPosition = new Vector3(targetX, currentPos.y, currentPos.z);
                 
-                remainingMoveRange -= Mathf.CeilToInt(Mathf.Abs(targetX - currentPos.x));
+                remainingMovementRange -= Mathf.CeilToInt(Mathf.Abs(targetX - currentPos.x));
             }
             else if (Mathf.Abs(diff.z) > 0.1f)
             {
                 float targetZ = Mathf.MoveTowards(currentPos.z, destination.z, gridSize);
                 targetPosition = new Vector3(currentPos.x,currentPos.y,targetZ);
 
-                remainingMoveRange -= Mathf.CeilToInt(Mathf.Abs(targetZ - currentPos.z));
+                remainingMovementRange -= Mathf.CeilToInt(Mathf.Abs(targetZ - currentPos.z));
             }
             
             transform.position = Vector3.MoveTowards(currentPos, targetPosition, gridSize * Time.deltaTime);
