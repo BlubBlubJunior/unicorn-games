@@ -27,6 +27,8 @@ public class EnemyAIBattle : MonoBehaviour
     public int resetMovement;
 
     public bool EnemyTurn;
+
+    public Vector3 adjustedTarget;
     void Update()
     {
         if (remainingMoves > 0 && EnemyTurn == true)
@@ -57,45 +59,55 @@ public class EnemyAIBattle : MonoBehaviour
             }
             MoveToTarget();
         }
-        
-        
+
+        if (Vector3.Distance(transform.position, targetPosition) <= gridSize)
+        {
+            attacking();
+        }
     }
-    
+
+    void attacking()
+    {
+        print("attack");
+    }
     void MoveToTarget()
     {
         if (hasTarget && remainingMoves > 0)
         {
-            if (verticalPhase == true)
+            if (verticalPhase)
             { 
-                if (!IsPathBlocked(verticalTarget))
-                {
-                    verticalTarget = new Vector3(transform.position.x, transform.position.y, targetPosition.z);
+                verticalTarget = new Vector3(transform.position.x, transform.position.y, targetPosition.z);
                     
-                    moveTowardsTarget(verticalTarget); 
+                moveTowardsTarget(verticalTarget); 
                     
-                    if (Mathf.Approximately(transform.position.z, verticalTarget.z))
-                    {
-                        verticalPhase = false;
-                    }
-                }
-                else
-                {
-                    AvoidObstacle();
+                if (Mathf.Approximately(transform.position.z, verticalTarget.z)) 
+                { 
+                    verticalPhase = false;
                 }
             }
             else
             {
                 horizontalTarget = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
-                moveTowardsTarget(horizontalTarget);
+                moveTowardsTarget(horizontalTarget);     
             }
         }
     }
 
+    void target()
+    {
+        
+    }
     void moveTowardsTarget(Vector3 target)
     {
+        Vector3 direction = (target - transform.position).normalized;
+        adjustedTarget = target - direction * gridSize;
+        
         float step = moveSpeed * Time.deltaTime;
-        Vector3 newPostion = Vector3.MoveTowards(transform.position, target, step);
-        remainingMoves -= Mathf.FloorToInt(Vector3.Distance(transform.position, newPostion) / gridSize);
+        Vector3 newPostion = Vector3.MoveTowards(transform.position, adjustedTarget, step);
+
+        float distanceMoved = Vector3.Distance(transform.position, newPostion);
+        
+        remainingMoves -= Mathf.FloorToInt(distanceMoved / gridSize);
         transform.position = newPostion;
     }
     bool IsPathBlocked(Vector3 target)

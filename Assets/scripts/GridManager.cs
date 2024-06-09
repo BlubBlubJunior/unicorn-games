@@ -51,7 +51,6 @@ public class GridManager : MonoBehaviour
 
     public void highLightTilesInRange(Vector3 center, int range)
     {
-        Debug.Log("fux");
         if (_tiles == null)
         {
             Debug.LogWarning("Tiles dictionary is not initialized.");

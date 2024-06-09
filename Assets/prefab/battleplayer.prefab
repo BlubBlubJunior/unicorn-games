@@ -104,8 +104,10 @@ MonoBehaviour:
   xp: 0
   MaxXp: 0
   Health: 0
-  Attack: 0
+  Strength: 0
   Defence: 0
+  damage: 0
+  selectobject: {fileID: 0}
 --- !u!54 &993043121190462281
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -166,8 +168,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 643010eb6b02bca479cf9375c1dd8782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  MovementSpeed: 1
   gridSize: 1
-  maxMoveRange: 1000
-  remainingMoveRange: 1000
-  moving: 0
+  ResetMovementRange: 5
+  remainingMovementRange: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  particles: {fileID: 0}
+  playerTurn: 0

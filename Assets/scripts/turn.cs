@@ -23,13 +23,13 @@ public class turn : MonoBehaviour
         {
             _enemyAIBattle.EnemyTurn = false;
             _battleController.playerTurn = true;
-            _battleController.remainingMovementRange = _battleController.ResetMovementRange;
+            //_battleController.remainingMovementRange = _battleController.ResetMovementRange;
         }
         else if (TurnSystem == false)
         {
             _enemyAIBattle.EnemyTurn = true;
             _battleController.playerTurn = false;
-            _enemyAIBattle.remainingMoves = _enemyAIBattle.resetMovement;
+            //_enemyAIBattle.remainingMoves = _enemyAIBattle.resetMovement;
         }
     }
 }
