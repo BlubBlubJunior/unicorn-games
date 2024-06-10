@@ -7,12 +7,21 @@ using UnityEngine.Serialization;
 
 public class battleController : MonoBehaviour
 {
-    public float MovementSpeed = 1f; 
-    public float gridSize = 1f; //per how many grids it snaps to.
-    public int ResetMovementRange = 5; //resetting the amount of grids it can move.
-    public int remainingMovementRange; //how many grids it can move over in this turn
-    public LayerMask groundLayer;
+    [Tooltip("How fast you move over the tiles.")]
+    public float MovementSpeed = 1f;
+    [Tooltip("How big the steps are the player takes over the tiles.")]
+    public float gridSize = 1f; 
+    [Tooltip("Resets remainingMovementRange when turn starts.")]
+    public int ResetMovementRange = 5; 
+    [Tooltip("How many steps you can take.")]
+    public int remainingMovementRange;
+    
+    
+    [Tooltip("The layer the character moves over and raycast looks for when playing.")]
+    public LayerMask groundLayer; 
+    [Tooltip("layer of the enemy when attacking.")]
     public LayerMask enemyLayer;
+    [Tooltip("particles for attacking.")]
     public GameObject particles;
 
     
@@ -23,6 +32,7 @@ public class battleController : MonoBehaviour
     private GridManager gridManager;
 
     public bool playerTurn;
+    private bool walking;
     void Start()
     {
         selectedPlayerStats = GetComponent<PlayerStats>();
@@ -109,6 +119,7 @@ public class battleController : MonoBehaviour
 
             if (distance <= remainingMovementRange && !isTileOccupied(gridPosition) && selectedUnit != null && selectedUnit.transform == transform)
             {
+                walking = true;
                 canMove = false;
                 StartCoroutine(moveToDestination(gridPosition));
             }
@@ -132,15 +143,25 @@ public class battleController : MonoBehaviour
             {
                 float targetX = Mathf.MoveTowards(currentPos.x, destination.x, gridSize);
                 targetPosition = new Vector3(targetX, currentPos.y, currentPos.z);
-                
-                remainingMovementRange -= Mathf.CeilToInt(Mathf.Abs(targetX - currentPos.x));
+
+                if (walking == true)
+                {
+                    remainingMovementRange -= Mathf.CeilToInt(Mathf.Abs(destination.x - currentPos.x));
+                    walking = false;
+                }
+               
             }
             else if (Mathf.Abs(diff.z) > 0.1f)
             {
                 float targetZ = Mathf.MoveTowards(currentPos.z, destination.z, gridSize);
                 targetPosition = new Vector3(currentPos.x,currentPos.y,targetZ);
 
-                remainingMovementRange -= Mathf.CeilToInt(Mathf.Abs(targetZ - currentPos.z));
+                if (walking == true)
+                {
+                    remainingMovementRange -= Mathf.CeilToInt(Mathf.Abs(destination.z - currentPos.z));
+                    walking = false;
+                }
+                
             }
             
             transform.position = Vector3.MoveTowards(currentPos, targetPosition, gridSize * Time.deltaTime);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 public class turn : MonoBehaviour
@@ -9,6 +10,10 @@ public class turn : MonoBehaviour
     public battleController _battleController;
 
     public bool TurnSystem;
+
+    public GameObject TurnButton;
+    
+    public GameObject Turneffect;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
@@ -31,5 +36,10 @@ public class turn : MonoBehaviour
             _battleController.playerTurn = false;
             //_enemyAIBattle.remainingMoves = _enemyAIBattle.resetMovement;
         }
+        
+    }
+    public void Turn()
+    {
+        TurnButton.SetActive(false);       
     }
 }

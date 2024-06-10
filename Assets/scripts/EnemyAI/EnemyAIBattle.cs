@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnemyAIBattle : MonoBehaviour
@@ -29,6 +30,9 @@ public class EnemyAIBattle : MonoBehaviour
     public bool EnemyTurn;
 
     public Vector3 adjustedTarget;
+    private Vector3 enemypos;
+
+    private bool walking;
     void Update()
     {
         if (remainingMoves > 0 && EnemyTurn == true)
@@ -53,6 +57,7 @@ public class EnemyAIBattle : MonoBehaviour
                         if (verticalTarget.z != targetPosition.z)
                         {
                             verticalPhase = true;
+                            walking = true;
                         }
                     }
                 }
@@ -68,7 +73,17 @@ public class EnemyAIBattle : MonoBehaviour
 
     void attacking()
     {
-        print("attack");
+        int attack = 1;
+
+        if (attack <= 0)
+        {
+            print("attack");
+        }
+        else
+        {
+            print("endTurn");
+        }
+        
     }
     void MoveToTarget()
     {
@@ -77,9 +92,10 @@ public class EnemyAIBattle : MonoBehaviour
             if (verticalPhase)
             { 
                 verticalTarget = new Vector3(transform.position.x, transform.position.y, targetPosition.z);
+                enemypos = new Vector3(targetPosition.x,targetPosition.y,targetPosition.z);
                     
                 moveTowardsTarget(verticalTarget); 
-                    
+                
                 if (Mathf.Approximately(transform.position.z, verticalTarget.z)) 
                 { 
                     verticalPhase = false;
@@ -88,27 +104,47 @@ public class EnemyAIBattle : MonoBehaviour
             else
             {
                 horizontalTarget = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
-                moveTowardsTarget(horizontalTarget);     
+                moveTowardsTarget(horizontalTarget);
             }
         }
     }
-
-    void target()
-    {
-        
-    }
+    
     void moveTowardsTarget(Vector3 target)
     {
-        Vector3 direction = (target - transform.position).normalized;
-        adjustedTarget = target - direction * gridSize;
-        
-        float step = moveSpeed * Time.deltaTime;
-        Vector3 newPostion = Vector3.MoveTowards(transform.position, adjustedTarget, step);
 
-        float distanceMoved = Vector3.Distance(transform.position, newPostion);
+        if (Mathf.Approximately(transform.position.z, targetPosition.z))
+        {
+            Vector3 direction = (target - transform.position).normalized;
+            adjustedTarget = target - direction * gridSize;
         
-        remainingMoves -= Mathf.FloorToInt(distanceMoved / gridSize);
-        transform.position = newPostion;
+            float step = moveSpeed * Time.deltaTime;
+            Vector3 newPostion = Vector3.MoveTowards(transform.position, adjustedTarget, step);
+
+            float  distanceMoved = Vector3.Distance(transform.position, newPostion);
+        
+            if (walking == true)
+            {
+                remainingMoves -= Mathf.CeilToInt(distanceMoved / gridSize);
+                walking = false;
+            }
+            
+            transform.position = newPostion;    
+        }
+        else
+        {
+            float step = moveSpeed * Time.deltaTime;
+            Vector3 newPostion = Vector3.MoveTowards(transform.position, target, step);
+            
+            float distanceMoved = Vector3.Distance(transform.position, newPostion);
+            
+            if (walking == true)
+            {
+                remainingMoves -= Mathf.CeilToInt(distanceMoved / gridSize);
+                walking = false;
+            }
+            
+            transform.position = newPostion;
+        }
     }
     bool IsPathBlocked(Vector3 target)
     {
