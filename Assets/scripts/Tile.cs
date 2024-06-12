@@ -10,15 +10,17 @@ public class Tile : MonoBehaviour
     [SerializeField] private SpriteRenderer _renderer;
 
     [SerializeField] private GameObject _highLight;
+
+    [SerializeField] private GameObject InRange;
     
     public void Init(bool isOffset)
     {
         _renderer.color = isOffset ? _offSetColor : _baseColor;
     }
 
-    public void HighLight(bool highlight)
+    public void HighLight(bool isInRangeOff)
     {
-        _renderer.color = highlight ? highLighedColor : _baseColor;
+        InRange.SetActive(isInRangeOff);
     }
     void OnMouseEnter()
     {

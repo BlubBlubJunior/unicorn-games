@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 8504481712619800472}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.8579074, y: 0.4656748, z: 0.44922784}
+  m_LocalPosition: {x: 5, y: 0.5, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 100
-  Attack: 0
+  Damage: 10
   Defence: 0
 --- !u!114 &7234849586525484688
 MonoBehaviour:
@@ -149,5 +149,8 @@ MonoBehaviour:
     m_Bits: 1
   verticalTarget: {x: 0, y: 0, z: 0}
   horizontalTarget: {x: 0, y: 0, z: 0}
-  remainingMoves: 100
-  resetMovement: 100
+  remainingMoves: 10
+  resetMovement: 10
+  EnemyTurn: 0
+  adjustedTarget: {x: 0, y: 0, z: 0}
+  attack: 1

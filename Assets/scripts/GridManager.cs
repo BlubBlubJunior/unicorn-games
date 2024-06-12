@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEditor;
@@ -15,7 +16,6 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private Tile _TilePrefab;
     
-    
     [SerializeField] private GameObject _PlayerPrefab;
     
     public Vector3 tileZeroZero;
@@ -29,72 +29,77 @@ public class GridManager : MonoBehaviour
 
     public List<GameObject> spawnedEnemies;
 
-    private Dictionary<Vector3, Tile> _tiles;
-
+    public bool enemyspawn;
+    
     public bool MapIsMade;
 
     public int randomspawn;
 
+    public List<Tile> tiles;
     private void Start()
     {
         if (MapIsMade == false)
         {
             GenerateGrid();
-            InstantiatePlayerOnTileZeroZero();     
+            InstantiatePlayerOnTileZeroZero();
+            MapIsMade = true;
         }
+    }
 
-        if (_tiles == null)
-        {
-            MapIsMade = false;
-        }
+    private void Update()
+    {
+      
     }
 
     public void highLightTilesInRange(Vector3 center, int range)
     {
-        if (_tiles == null)
-        {
-            Debug.LogWarning("Tiles dictionary is not initialized.");
-            return;
-        }
-        Debug.Log("heck");
-        foreach (var tile in _tiles.Values)
+        foreach (var tile in tiles)
         {
             float distance = Vector3.Distance(center, tile.transform.position);
-            if (distance <= range)
-            {
-                tile.HighLight(true);
-                Debug.Log("check");
-            }
-            {
-                tile.HighLight(false);
-            }
+            bool isInrange = distance <= range;
+            tile.HighLight(isInrange);
         }
     }
     void GenerateGrid()
     {
-        _tiles = new Dictionary<Vector3, Tile>();
+        tiles = new List<Tile>();
         for (int x = 0; x < _Width; x++)
         {
             for (int z = 0; z < _Deept; z++)
             {
                 Vector3 spawnPositon = new Vector3(x, 0, z);
+                
                 if (!isPositionOccupied(spawnPositon))
                 {
-                    var spawnedTile = Instantiate(_TilePrefab, spawnPositon, Quaternion.Euler(90, 0, 0)); 
-                    randomspawn = Random.Range(0, 1000);
-                    if (randomspawn == 1 )
+                    var spawnedTile = Instantiate(_TilePrefab, spawnPositon, Quaternion.Euler(90, 0, 0));
+                    tiles.Add(spawnedTile);
+                    
+                    
+                    float xR = Random.Range(10, 20);
+                    float zR = Random.Range(0, 10);
+
+                    Vector3 sp = new Vector3(xR, 0.5f, zR);
+                    
+                    randomspawn = Random.Range(0, 100);
+                    if (randomspawn == 1 && spawnedEnemies.Count <= 1)
                     {
-                        var spawnEnemy = Instantiate(Enemie, spawnPositon, quaternion.identity); 
+                        var spawnEnemy = Instantiate(Enemie, sp, quaternion.identity); 
                         spawnEnemy.transform.SetParent(ParentTiles.transform);
                         spawnedEnemies.Add(spawnEnemy);
                     }
+                    else if (spawnedEnemies.Count == 1)
+                    {
+                        var spawnEnemy = Instantiate(Enemie, sp, quaternion.identity); 
+                        spawnEnemy.transform.SetParent(ParentTiles.transform);
+                        spawnedEnemies.Add(spawnEnemy);
+                    }
+                    
                     spawnedTile.name = $"Tile {x} {z}";
                     spawnedTile.transform.SetParent(ParentTiles.transform);
 
                     var isOffset = (x % 2 == 0 && z % 2 != 0) || (x % 2 != 0 && z % 2 == 0);
                     spawnedTile.Init(isOffset);
-
-                    _tiles.Add(spawnPositon, spawnedTile);    
+                    
                 }
             }
         }
@@ -119,11 +124,12 @@ public class GridManager : MonoBehaviour
     {
         Instantiate(_PlayerPrefab, tileZeroZero, Quaternion.identity);
 
-        Instantiate(Enemie, spawnpointEnemie, quaternion.identity);
+        //Instantiate(Enemie, spawnpointEnemie, quaternion.identity);
     }
 
     public void regererateGrid()
     {
+        tiles.Clear();
         removeOldGrid();
         GenerateGrid();
         InstantiatePlayerOnTileZeroZero();
@@ -132,15 +138,10 @@ public class GridManager : MonoBehaviour
 
     public void removeOldGrid()
     {
-        if (_tiles != null)
-        {
-            foreach (var tile in _tiles.Values)
-            {
-                DestroyImmediate(tile.gameObject);
-            }
-            _tiles.Clear();
-            
+        
+        
             spawnedEnemies.Clear();
+            tiles.Clear();
             
             DestroyImmediate(GameObject.FindGameObjectWithTag("Player"));
             DestroyImmediate(GameObject.FindGameObjectWithTag("Enemy"));
@@ -153,7 +154,7 @@ public class GridManager : MonoBehaviour
                     DestroyImmediate(GameObject.FindGameObjectWithTag("Enemy"));
                 }
             }     
-        }
+        
        
     }
 }

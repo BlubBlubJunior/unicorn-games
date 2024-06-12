@@ -23,27 +23,28 @@ public class battleController : MonoBehaviour
     public LayerMask enemyLayer;
     [Tooltip("particles for attacking.")]
     public GameObject particles;
-
+    public bool attack = true;
     
     private Vector3 targetPosition; 
     private bool canMove = true;
     private GameObject selectedUnit;
     private PlayerStats selectedPlayerStats;
     private GridManager gridManager;
-
-    public bool playerTurn;
+    private turn _GM;
+    
     private bool walking;
     void Start()
     {
         selectedPlayerStats = GetComponent<PlayerStats>();
         remainingMovementRange = ResetMovementRange; //resetting movement
         targetPosition = transform.position;
-        gridManager = FindObjectOfType<GridManager>(); 
+        gridManager = FindObjectOfType<GridManager>();
+        _GM = FindObjectOfType<turn>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && canMove && playerTurn == true)
+        if (Input.GetMouseButtonDown(0) && canMove && _GM.TurnSystem == true)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -71,9 +72,10 @@ public class battleController : MonoBehaviour
             {
                 Vector3 enemyposition = hit.collider.transform.position;
                 float distance = Vector3.Distance(transform.position, enemyposition) / gridSize;
-
-                if (distance <= 1)
+                
+                if (distance <= 1 && attack == true)
                 {
+                    attack = false;
                     EnemyStats enemyHealth = hit.collider.GetComponent<EnemyStats>();
                     enemyHealth.TakeDamage(selectedPlayerStats.damage);
                     GameObject particle = Instantiate(particles, hit.transform.position, quaternion.identity);

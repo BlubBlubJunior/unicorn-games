@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -33,9 +34,22 @@ public class EnemyAIBattle : MonoBehaviour
     private Vector3 enemypos;
 
     private bool walking;
+
+    private turn _GM;
+    public bool attack = true;
+    private EnemyStats _ES;
+    private PlayerStats _PS;
+    private GameObject target;
+    private void Start()
+    {
+        _GM = FindObjectOfType<turn>();
+        _ES = GetComponent<EnemyStats>();
+        _PS = FindObjectOfType<PlayerStats>();
+    }
+
     void Update()
     {
-        if (remainingMoves > 0 && EnemyTurn == true)
+        if (remainingMoves > 0 && _GM.TurnSystem == false)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, range);
 
@@ -43,14 +57,13 @@ public class EnemyAIBattle : MonoBehaviour
             {
                 if (col.CompareTag("Player"))
                 {
-                    targetPosition = col.transform.position;
+                    target = col.gameObject;
+                    targetPosition = target.transform.position;
 
                     if (Physics.Raycast(gameObject.transform.position + Vector3.up * 0.5f, Vector3.down, 1f, groundLayer))
                     {
                         if (canMove)
                         {
-                            //horizontalTarget = new Vector3(targetPosition.x, transform.position.y, transform.position.z);
-                            //verticalTarget = new Vector3(transform.position.x, transform.position.y, targetPosition.z);
                             hasTarget = true;
                         }
 
@@ -63,25 +76,25 @@ public class EnemyAIBattle : MonoBehaviour
                 }
             }
             MoveToTarget();
+            if (Vector3.Distance(transform.position, targetPosition) <= gridSize)
+            {
+                attacking();
+            }
         }
 
-        if (Vector3.Distance(transform.position, targetPosition) <= gridSize)
-        {
-            attacking();
-        }
+        
     }
 
     void attacking()
     {
-        int attack = 1;
-
-        if (attack <= 0)
+        if (attack == true)
         {
-            print("attack");
+            _PS.TakeDamage(_ES.Damage);
+            attack = false;
         }
         else
         {
-            print("endTurn");
+            _GM.enemyturn();
         }
         
     }

@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 public class EnemyStats : MonoBehaviour
 {
     [SerializeField] public float currentHealth;
-    [SerializeField] public float Attack;
+    [SerializeField] public float Damage;
     [SerializeField] public float Defence;
     
     public void TakeDamage(float damage)
@@ -16,7 +16,6 @@ public class EnemyStats : MonoBehaviour
         if (currentHealth != null)
         {
             currentHealth -= damage;
-            Debug.Log(currentHealth + "lower");
         }
     }
     
