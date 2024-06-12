@@ -36,6 +36,7 @@ public class GridManager : MonoBehaviour
     public int randomspawn;
 
     public List<Tile> tiles;
+    
     private void Start()
     {
         if (MapIsMade == false)
@@ -45,19 +46,24 @@ public class GridManager : MonoBehaviour
             MapIsMade = true;
         }
     }
-
-    private void Update()
+    
+    public void highLightTilesInRange(Vector3 center, int range)
     {
-      
+        
+            foreach (var tile in tiles)
+            {
+                float distance = Vector3.Distance(center, tile.transform.position);
+                bool isInrange = distance <= range;
+                tile.HighLight(isInrange);
+            }     
+        
     }
 
-    public void highLightTilesInRange(Vector3 center, int range)
+    public void clearHighlight()
     {
         foreach (var tile in tiles)
         {
-            float distance = Vector3.Distance(center, tile.transform.position);
-            bool isInrange = distance <= range;
-            tile.HighLight(isInrange);
+            tile.HighLight(false);
         }
     }
     void GenerateGrid()

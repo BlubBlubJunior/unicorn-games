@@ -94,12 +94,14 @@ public class battleController : MonoBehaviour
             selectedPlayerStats.Deselect();
             selectedUnit = null;
             selectedPlayerStats = null;
+            gridManager.clearHighlight();
             return;
         }
         
         if (selectedUnit != null)
         {
             selectedPlayerStats.Deselect();
+             gridManager.clearHighlight();
         }
         
         selectedUnit = unit;
@@ -136,6 +138,8 @@ public class battleController : MonoBehaviour
 
     IEnumerator moveToDestination(Vector3 destination)
     {
+        gridManager.clearHighlight();
+        
         while (transform.position != destination)
         {
             Vector3 currentPos = transform.position;
@@ -173,6 +177,7 @@ public class battleController : MonoBehaviour
 
         if (Vector3.Distance(transform.position, destination) < 0.1f)
         {
+            gridManager.highLightTilesInRange(selectedUnit.transform.position, remainingMovementRange);
             canMove = true;
         }
     }
