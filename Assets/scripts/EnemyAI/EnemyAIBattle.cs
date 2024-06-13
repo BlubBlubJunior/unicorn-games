@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using TMPro;
 
 public class EnemyAIBattle : MonoBehaviour
 {
@@ -34,23 +34,30 @@ public class EnemyAIBattle : MonoBehaviour
     private Vector3 enemypos;
 
     private bool walking;
+    
+    public TMP_Text HpText;
 
-    private turn _GM;
+    private TurnManager _GM;
     public bool attack = true;
     private EnemyStats _ES;
     private PlayerStats _PS;
-    private GameObject target;
+    public GameObject target;
+    public float timer;
+    public float resetTimer;
     private void Start()
     {
-        _GM = FindObjectOfType<turn>();
+        _GM = FindObjectOfType<TurnManager>();
         _ES = GetComponent<EnemyStats>();
         _PS = FindObjectOfType<PlayerStats>();
+        resetTimer = timer;
     }
 
     void Update()
     {
         if (remainingMoves > 0 && _GM.TurnSystem == false)
         {
+            timer -= Time.deltaTime;
+            
             Collider[] colliders = Physics.OverlapSphere(transform.position, range);
 
             foreach (Collider col in colliders)
@@ -74,10 +81,17 @@ public class EnemyAIBattle : MonoBehaviour
                         }
                     }
                 }
+                else if (target == null && timer <= 0)
+                {
+                    _GM.enemyturn();
+
+                    timer = resetTimer;
+                }
             }
             MoveToTarget();
             if (Vector3.Distance(transform.position, targetPosition) <= gridSize)
             {
+               
                 attacking();
             }
         }
@@ -89,7 +103,12 @@ public class EnemyAIBattle : MonoBehaviour
     {
         if (attack == true)
         {
+            
             _PS.TakeDamage(_ES.Damage);
+            
+            TMP_Text _text = Instantiate(HpText, transform.position + Vector3.up, Quaternion.identity);
+            _text.text = _ES.Damage.ToString();
+            
             attack = false;
         }
         else

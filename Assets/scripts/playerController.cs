@@ -27,40 +27,6 @@ public class playerController : MonoBehaviour
         anime.SetFloat("sidemovement", movedirection.x);
         
         movedirection = new Vector3(Input.GetAxis("Horizontal"),0, Input.GetAxis("Vertical"));
-
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hit;
-            
-            if (Physics.Raycast(ray,out hit, Mathf.Infinity, groundLayer))
-            {
-                targetPosition = hit.point;
-                move = true;
-            }
-        }
-
-        if (move == true)
-        {
-            //MoveToPosition(targetPosition);      
-        }
-    }
-    void MoveToPosition(Vector3 target)
-    {
-        Vector3 transformpos = new Vector3(target.x, transform.position.y, target.z);
-        Vector3 currentpos = new Vector3(transform.position.x, transform.position.z, transform.position.y);
-        Vector3 direction = (transformpos - currentpos).normalized;
-        
-        if (Vector3.Distance(currentpos, transformpos) > 0.1f)
-        {
-            transform.position += direction * movementspeed * Time.deltaTime;
-        }
-        else
-        {
-            print("check");
-        }
     }
     void FixedUpdate()
     {

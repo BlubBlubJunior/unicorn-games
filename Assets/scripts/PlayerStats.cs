@@ -9,7 +9,8 @@ public class PlayerStats : MonoBehaviour
 {
     [SerializeField] private int level;
     [SerializeField] private int xp;
-    [SerializeField] private float MaxXp;
+    [SerializeField] private float xpToNextLevel;
+    [SerializeField] private float MaxHp;
     [SerializeField] private float currentHP;
     
     [SerializeField] public float Strength;
@@ -27,18 +28,27 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
-        currentHP = MaxXp;
+        currentHP = MaxHp;
     }
 
     private void Update()
     {
-        HpText.text = currentHP + " / " + MaxXp;
+        HpText.text = currentHP + " / " + MaxHp;
         damage = Strength;
         
         if (currentHP <= 0)
         {
             Destroy(this.gameObject);
         }
+
+        /*if (xp >= xpToNextLevel)
+        {
+            level += 1;
+            xpToNextLevel *= 1.25f;
+            MaxHp *= 1.05f;
+            Strength *= 1.05f;
+            Defence *= 1.05f;
+        }*/
     }
     
     public void TakeDamage(float damage)
@@ -62,6 +72,7 @@ public class PlayerStats : MonoBehaviour
 
     public void Deselect()
     {
+        print("disable");
         isSelected = false;
         // Remove any visual feedback for deselection here
         selectobjectUi.SetActive(false);

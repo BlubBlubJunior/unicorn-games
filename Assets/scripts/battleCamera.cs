@@ -29,5 +29,7 @@ public class battleCamera : MonoBehaviour
         {
             Speed /= 2;
         }
+        
+        
     }
 }

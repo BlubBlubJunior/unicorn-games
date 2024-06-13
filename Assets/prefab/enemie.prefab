@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8504481712619800472}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 0.5, z: 5}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10.637, y: -1, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -153,4 +153,8 @@ MonoBehaviour:
   resetMovement: 10
   EnemyTurn: 0
   adjustedTarget: {x: 0, y: 0, z: 0}
+  HpText: {fileID: 7494557101960305458, guid: af16be66e12ba1e45bfa9aa7ac691487, type: 3}
   attack: 1
+  target: {fileID: 0}
+  timer: 2
+  resetTimer: 0

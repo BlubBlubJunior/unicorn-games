@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 521212c5a6bee664dabf661fff0241a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -133,6 +133,9 @@ MonoBehaviour:
     m_Bits: 128
   particles: {fileID: 6177590560283225974, guid: 1634dc9d2589eb14fb4d5915b997f5ef, type: 3}
   attack: 1
+  HpText: {fileID: 7494557101960305458, guid: af16be66e12ba1e45bfa9aa7ac691487, type: 3}
+  cam: {fileID: 0}
+  buttenOff: 0
 --- !u!114 &651685798783197307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +150,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 0
   xp: 0
-  MaxXp: 100
+  xpToNextLevel: 0
+  MaxHp: 100
   currentHP: 100
   Strength: 12
   Defence: 0
@@ -306,7 +310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &71064159843442318
 RectTransform:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -88,7 +89,7 @@ public class EnemyAI : MonoBehaviour
 
     void attacking()
     {
-        Debug.Log("check");
+        SceneManager.LoadScene("pvp");
     }
     void OnDrawGizmosSelected()
     {
