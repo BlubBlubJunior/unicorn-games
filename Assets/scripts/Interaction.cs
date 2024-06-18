@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartDialoge : MonoBehaviour
+public class Interaction : MonoBehaviour
 {
     [SerializeField] private float reach;
     
@@ -11,7 +11,11 @@ public class StartDialoge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Ray ray;
+
+        RaycastHit hit;
         
+        Physics.Raycast(hit)
     }
 
     private void OnDrawGizmosSelected()

@@ -5146,7 +5146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &225366700
 Transform:
   m_ObjectHideFlags: 0
@@ -25607,6 +25607,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &914829331 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7494557101960305458, guid: af16be66e12ba1e45bfa9aa7ac691487, type: 3}
+  m_PrefabInstance: {fileID: 8893539689273084192}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &919963378
 GameObject:
   m_ObjectHideFlags: 0
@@ -61803,6 +61814,34 @@ PrefabInstance:
     - target: {fileID: 134496901469616513, guid: d92041757d63417468a6ade0cc85d67a, type: 3}
       propertyPath: m_Name
       value: playertestcube(Clone)
+      objectReference: {fileID: 0}
+    - target: {fileID: 651685798783197307, guid: d92041757d63417468a6ade0cc85d67a, type: 3}
+      propertyPath: damage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 651685798783197307, guid: d92041757d63417468a6ade0cc85d67a, type: 3}
+      propertyPath: Strength
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2112693324746643539, guid: d92041757d63417468a6ade0cc85d67a, type: 3}
+      propertyPath: movementSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2112693324746643539, guid: d92041757d63417468a6ade0cc85d67a, type: 3}
+      propertyPath: damageTextPrefab
+      value: 
+      objectReference: {fileID: 914829331}
+    - target: {fileID: 2112693324746643539, guid: d92041757d63417468a6ade0cc85d67a, type: 3}
+      propertyPath: attackParticlesPrefab
+      value: 
+      objectReference: {fileID: 6177590560283225974, guid: 1634dc9d2589eb14fb4d5915b997f5ef, type: 3}
+    - target: {fileID: 2112693324746643539, guid: d92041757d63417468a6ade0cc85d67a, type: 3}
+      propertyPath: enemyLayerMask.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 2112693324746643539, guid: d92041757d63417468a6ade0cc85d67a, type: 3}
+      propertyPath: groundLayerMask.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 6653879472041428910, guid: d92041757d63417468a6ade0cc85d67a, type: 3}
       propertyPath: m_LocalPosition.x

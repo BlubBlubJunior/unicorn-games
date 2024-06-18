@@ -51,13 +51,16 @@ public class PlayerBattleController : MonoBehaviour
         _GM = FindObjectOfType<TurnManager>();
     }
 
+    // Main update loop to handle movment and attacking.
     void Update()
     {
+        // Checks if there if UI in raycast ray
         if (EventSystem.current.IsPointerOverGameObject())
         {
             return;
         }
         
+        //handles left mouse button click for selecting unit and moving
         if (Input.GetMouseButtonDown(0) && isAbleToMove && _GM.TurnSystem == true)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -67,16 +70,19 @@ public class PlayerBattleController : MonoBehaviour
             {
                 GameObject clickedObject = hit.collider.gameObject;
 
+                // Select a unit if clicked
                 if (clickedObject.CompareTag("Player"))
                 {
                     SelectUnit(clickedObject);
                 }
+                // move to selected unit if valid position is clicked
                 else if (selectedUnit != null && currentMovementRange > 0 && MoveToPosBool == false)
                 {
                     MoveToPosition(hit.point);
                 }
             }
         }
+        // right mouse click handles attacking
         else if (Input.GetMouseButtonDown(1) && selectedUnit != null)
         {
             RaycastHit hit;
@@ -103,11 +109,13 @@ public class PlayerBattleController : MonoBehaviour
             }
         }
         
+        // move towards target position
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
     }
 
+    // select and deselect units
     public void SelectUnit(GameObject unit)
-    {
+    {  
         if (selectedUnit == unit)
         {
             selectedPlayerStats.Deselect();
@@ -130,11 +138,13 @@ public class PlayerBattleController : MonoBehaviour
         gridManager.highLightTilesInRange(selectedUnit.transform.position, currentMovementRange);
     }
 
+    // clear highlighted tiles
     public void clearHighlight()
     {
         gridManager.clearHighlight();
     }
 
+    // move to the specified position if within range
     void MoveToPosition(Vector3 destination)
     {
         Ray ray = new Ray(transform.position, destination - transform.position);
@@ -154,12 +164,14 @@ public class PlayerBattleController : MonoBehaviour
         }
     }
     
+    // destroys particles after a delay float
     IEnumerator DestroyParticlesAfterDelay(GameObject particle, float delay)
     {
         yield return new WaitForSeconds(delay);
         Destroy(particle);
     }
 
+    // moves unit to testination tile by tile
     IEnumerator MoveToDestination(Vector3 destination)
     {
         gridManager.clearHighlight();
@@ -198,7 +210,6 @@ public class PlayerBattleController : MonoBehaviour
             
             yield return null;
         }
-
         if (Vector3.Distance(transform.position, destination) < 0.1f)
         {
             gridManager.highLightTilesInRange(selectedUnit.transform.position, currentMovementRange);
@@ -206,6 +217,7 @@ public class PlayerBattleController : MonoBehaviour
         }
     }
 
+    //round a position the nearest tile grid
     Vector3 RoundToNearestTile(Vector3 position)
     {
         float x = Mathf.Round(position.x / tileSize) * tileSize;
@@ -214,6 +226,7 @@ public class PlayerBattleController : MonoBehaviour
         return new Vector3(x,transform.position.y, z);
     }
 
+    //check if a tile is occupied
     bool IsTileOccupied(Vector3 position)
     {
         Collider[] colliders = Physics.OverlapSphere(position, 0.1f, groundLayerMask);
