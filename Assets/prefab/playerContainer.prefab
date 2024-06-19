@@ -222,6 +222,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reach: 2
+  interactionlayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &8796042418564816012
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,16 +6,23 @@ using UnityEngine;
 public class Interaction : MonoBehaviour
 {
     [SerializeField] private float reach;
+
+    [SerializeField] private LayerMask interactionlayer;
     
 
     // Update is called once per frame
     void Update()
     {
-        Ray ray;
-
+        
         RaycastHit hit;
         
-        Physics.Raycast(hit)
+        if (Input.GetKeyDown(KeyCode.F))
+        { 
+            if (Physics.Raycast(transform.position, Vector3.forward, out hit, reach, interactionlayer)) 
+            {
+                
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()
