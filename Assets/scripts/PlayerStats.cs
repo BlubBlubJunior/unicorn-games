@@ -72,7 +72,6 @@ public class PlayerStats : MonoBehaviour
 
     public void Deselect()
     {
-        print("disable");
         isSelected = false;
         // Remove any visual feedback for deselection here
         selectobjectUi.SetActive(false);

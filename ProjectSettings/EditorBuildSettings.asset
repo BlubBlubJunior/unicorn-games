@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/map.unity
     guid: de61fe5f075511240b10f46b0b458e62
+  - enabled: 1
+    path: Assets/Scenes/levels/wall_level.unity
+    guid: 0cdc3e1139312b94381538747ca4b6a5
+  - enabled: 1
+    path: Assets/Scenes/levels/city_level.unity
+    guid: 65ab4ea35cc3e5a419781fa6f007da1d
   m_configObjects: {}

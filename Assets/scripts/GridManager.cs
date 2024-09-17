@@ -30,6 +30,8 @@ public class GridManager : MonoBehaviour
     public List<GameObject> spawnedEnemies;
 
     public bool enemyspawn;
+
+    public float hight;
     
     public bool MapIsMade;
 
@@ -73,30 +75,30 @@ public class GridManager : MonoBehaviour
         {
             for (int z = 0; z < _Deept; z++)
             {
-                Vector3 spawnPositon = new Vector3(x, 0, z);
+                Vector3 sps  = new Vector3(x, hight, z);
                 
-                if (!isPositionOccupied(spawnPositon))
+                if (!isPositionOccupied(sps))
                 {
-                    var spawnedTile = Instantiate(_TilePrefab, spawnPositon, Quaternion.Euler(90, 0, 0));
+                    var spawnedTile = Instantiate(_TilePrefab, sps, Quaternion.Euler(90, 0, 0));
                     tiles.Add(spawnedTile);
                     
                     
                     float xR = Random.Range(10, 20);
                     float zR = Random.Range(0, 10);
 
-                    Vector3 sp = new Vector3(xR, 0.5f, zR);
+                    Vector3 sp = new Vector3(xR, hight + 0.5f, zR);
                     
                     randomspawn = Random.Range(0, 100);
                     if (randomspawn == 1 && spawnedEnemies.Count <= 1)
                     {
                         var spawnEnemy = Instantiate(Enemie, sp, quaternion.identity); 
-                        spawnEnemy.transform.SetParent(ParentTiles.transform);
+                        //spawnEnemy.transform.SetParent(ParentTiles.transform);
                         spawnedEnemies.Add(spawnEnemy);
                     }
                     else if (spawnedEnemies.Count == 1)
                     {
                         var spawnEnemy = Instantiate(Enemie, sp, quaternion.identity); 
-                        spawnEnemy.transform.SetParent(ParentTiles.transform);
+                        //spawnEnemy.transform.SetParent(ParentTiles.transform);
                         spawnedEnemies.Add(spawnEnemy);
                     }
                     
