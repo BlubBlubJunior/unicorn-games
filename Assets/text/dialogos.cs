@@ -27,12 +27,12 @@ public class dialogos : MonoBehaviour
     public GameObject next;
     public GameObject turnOff;
 
-    public NameInput nameInput;
+    //public NameInput nameInput;
     public string playerName;
     public string SP_world;
     private void Start()
     {
-        playerName = nameInput.getName();
+        //playerName = nameInput.getName();
         
         InitializeVariables();
         StartDialogue();
@@ -91,7 +91,7 @@ public class dialogos : MonoBehaviour
     {
         if (currentLineIndex >= textList[currentIndex].lines.Length -1)
         {
-            print(" dirt");
+       
             currentIndex++;
             currentLineIndex = 0;
         }
