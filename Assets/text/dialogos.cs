@@ -40,7 +40,6 @@ public class dialogos : MonoBehaviour
 
     private void InitializeVariables()
     {
-        print(" luca");
         currentIndex = currentLineIndex = 0;
         isTyping = textStarted = false;
     }

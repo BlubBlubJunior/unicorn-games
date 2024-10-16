@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using TMPro;
+using Random = UnityEngine.Random;
 
 public class PlayerStats : MonoBehaviour
 {
     [SerializeField] private int level;
-    [SerializeField] private int xp;
+    [SerializeField] private float xp;
     [SerializeField] private float xpToNextLevel;
     [SerializeField] private float MaxHp;
     [SerializeField] private float currentHP;
@@ -18,6 +19,19 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] public float damage;
     
     public TMP_Text HpText;
+    public TMP_Text strength_text;
+    public TMP_Text defence_text;
+    public TMP_Text level_text;
+    public TMP_Text xpToNextLevel_text;
+    public TMP_Text XP_text;
+
+    public bool statsscreen;
+
+    [SerializeField] private GameObject playercanvas;
+    [SerializeField] private GameObject player;
+
+    [SerializeField] private float timerInfONOrOff;
+    
     
     private bool isSelected;
 
@@ -29,11 +43,25 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         currentHP = MaxHp;
+
+        GameObject level_component = GameObject.Find("level");
+        level_text = level_component.GetComponent<TMP_Text>();
+        
+        GameObject hp_component = GameObject.Find("hp");
+        HpText = hp_component.GetComponent<TMP_Text>();
+        
+        GameObject strenght_component = GameObject.Find("strength");
+        strength_text = strenght_component.GetComponent<TMP_Text>();
+        
+        GameObject defence_component = GameObject.Find("defence");
+        defence_text = defence_component.GetComponent<TMP_Text>();
+        
     }
 
     private void Update()
     {
-        HpText.text = currentHP + " / " + MaxHp;
+        timerInfONOrOff -= Time.deltaTime;
+        //HpText.text = currentHP + " / " + MaxHp;
         damage = Strength;
         
         if (currentHP <= 0)
@@ -41,14 +69,47 @@ public class PlayerStats : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        /*if (xp >= xpToNextLevel)
+        if (xp >= xpToNextLevel)
         {
+            int randomMaxHpIncrease = Random.Range(1, 5);
+            int randomSrenghtIncrease = Random.Range(1, 5);
+            int randomdefenceIncrease = Random.Range(1, 5);
+            
+            
             level += 1;
-            xpToNextLevel *= 1.25f;
-            MaxHp *= 1.05f;
-            Strength *= 1.05f;
-            Defence *= 1.05f;
-        }*/
+            xpToNextLevel *= 3f;
+            MaxHp += randomMaxHpIncrease;
+            Strength += randomSrenghtIncrease;
+            Defence += randomdefenceIncrease;
+
+            MaxHp = Mathf.Ceil(MaxHp);
+            Strength = Mathf.Ceil(Strength);
+            Defence = Mathf.Ceil(Defence);
+            xp = Mathf.Ceil(xp);
+            xpToNextLevel = Mathf.Ceil(xpToNextLevel);
+            
+            xp -= xpToNextLevel;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && statsscreen == false && timerInfONOrOff <= 0)
+        {
+            timerInfONOrOff = 0.1f;
+            statsscreen = true;
+            player.SetActive(false);
+            playercanvas.SetActive(true);
+            level_text.text = "lv. " + level.ToString();
+            HpText.text = "HP: " + currentHP + " / " + MaxHp;
+            strength_text.text = "AKT: " + Strength.ToString();
+            defence_text.text = "DEF: " + Defence.ToString();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.E) && statsscreen == true && timerInfONOrOff <= 0)
+        {
+            timerInfONOrOff = 0.1f;
+            player.SetActive(true);
+            statsscreen = false;
+            playercanvas.SetActive(false);
+        }
     }
     
     public void TakeDamage(float damage)
